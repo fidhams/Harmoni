@@ -21,7 +21,6 @@ const Home = () => {
       <header className="header-with-image">
         <img src="/headd.jpeg" alt="Header" style={{ width: "100%" }} />
         <div className="copy">
-          <span className="holding-hands">Holding Hands</span>
           <div className="overlay">
             <span className="subheading-description">Join us in Making a Difference</span>
             <button className="button-3">
