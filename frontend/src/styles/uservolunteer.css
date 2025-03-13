@@ -1,0 +1,280 @@
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+      "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+      "Source Han Sans CN", sans-serif;
+  }
+  
+  .main-container {
+    overflow: hidden;
+  }
+  
+  .main-container,
+  .main-container * {
+    box-sizing: border-box;
+  }
+  
+  input,
+  select,
+  textarea,
+  button {
+    outline: 0;
+  }
+  .name{
+    align-self: stretch;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    min-width: 0;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 2;
+   
+  } 
+  
+  .main-container {
+    position: relative;
+    width: 1853px;
+    height: 1078px;
+    margin: 0 auto;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .form {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 32px;
+    position: relative;
+    width: 609px;
+    height: 495px;
+    margin: 252px 0 0 590px;
+  }
+  .input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+    position: relative;
+    width: 609px;
+    height: 113px;
+    z-index: 1;
+  }
+  .category {
+    align-self: stretch;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    min-width: 0;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 2;
+  }
+  .dropdown {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: 16px;
+    position: relative;
+    width: 609px;
+    height: 54px;
+    padding: 8px 16px 8px 16px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    z-index: 3;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  .dropdown-input {
+    flex-shrink: 0;
+    position: absolute;
+    width: 609px;
+    height: 54px;
+    top: -1px;
+    left: -1px;
+    background: transparent;
+    border: none;
+    z-index: 7;
+    outline: none;
+  }
+  .label {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    min-width: 0;
+    height: 24px;
+    color: #828282;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 4;
+    overflow: hidden;
+  }
+  .chevron-down {
+    flex-shrink: 0;
+    position: relative;
+    width: 24px;
+    height: 24px;
+    z-index: 5;
+    overflow: hidden;
+  }
+  .vector {
+    position: relative;
+    width: 14px;
+    height: 8px;
+    margin: 8px 0 0 5px;
+    background: url(./defaultimg.jpeg)
+      no-repeat center;
+    background-size: 100% 100%;
+    z-index: 6;
+  }
+  .input-1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+    position: relative;
+    width: 609px;
+    height: 194px;
+    z-index: 8;
+  }
+  .description {
+    align-self: stretch;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    min-width: 0;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 9;
+  }
+  .field {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 0;
+    gap: 8px;
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    padding: 12px 16px 12px 16px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    z-index: 10;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  .label-2 {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    height: 24px;
+    color: #828282;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 11;
+  }
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 8px;
+    position: relative;
+    width: 80px;
+    padding: 14px 24px 14px 24px;
+    cursor: pointer;
+    background: #000000;
+    border: none;
+    z-index: 12;
+    border-radius: 8px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+  .add {
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    height: 24px;
+    color: #ffffff;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 13;
+  }
+  .dropdown-container {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 5% auto;
+  }
+  
+  .dropdown {
+    position: relative;
+    width: 68%;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  .dropdown-label {
+    font-family: Inter, var(--default-font-family);
+    font-size: 2vw;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #000000;
+    margin-bottom: 0.5em;
+  
+  }
+  
+  .dropdown-select {
+    width: 100%;
+    height: auto;
+    padding: 1.5% 2%;
+    font-family: 'Inter', var(--default-font-family);
+    font-size: 1.5vw;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #828282;
+  }
+  
+  .chevron-down {
+    width: 1.5vw;
+    height: auto;
+    right: 2%;
+  }

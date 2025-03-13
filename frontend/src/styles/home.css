@@ -1,0 +1,155 @@
+/* General Styling */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f5f5f5;
+}
+
+/* Main Container */
+.main-container {
+  text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header with Image */
+.header-with-image {
+  position: relative;
+  width: 100%;
+}
+
+.header-with-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.copy {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+}
+
+.holding-hands {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.subheading-description {
+  font-size: 1.2rem;
+  display: block;
+  margin: 10px 0;
+}
+
+.button-3 {
+  background-color: #ff6b6b;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-3 a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+/* Events Section */
+.whats-happening {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 20px 0;
+  display: block;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.card .image {
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+}
+
+.card-content {
+  padding: 10px 0;
+}
+
+.event-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 1rem;
+  color: #555;
+}
+
+.event-date,
+.event-venue {
+  font-size: 0.9rem;
+  color: #777;
+  display: block;
+  margin-top: 5px;
+}
+
+/* About Section */
+.about-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  margin: 30px 0;
+}
+
+.about-content {
+  max-width: 600px;
+}
+
+.about-section img {
+  width: 300px;
+  border-radius: 10px;
+}
+
+/* Footer */
+.navigation-footer {
+  background-color: #222;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.divider {
+  width: 80%;
+  height: 2px;
+  background-color: white;
+  margin: 10px auto;
+}
+
+.footer-info p {
+  margin: 5px 0;
+  font-size: 0.9rem;
+}
