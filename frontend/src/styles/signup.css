@@ -1,0 +1,394 @@
+:root {
+    --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
+      "Hiragino Sans GB", "Microsoft Yahei UI", "Microsoft Yahei",
+      "Source Han Sans CN", sans-serif;
+  }
+  
+  .main-container {
+    overflow: hidden;
+  }
+  
+  .main-container,
+  .main-container * {
+    box-sizing: border-box;
+  }
+  
+  input,
+  select,
+  textarea,
+  button {
+    outline: 0;
+  }
+  
+  .main-container {
+    position: relative;
+    width: 1469px;
+    height: 1096px;
+    margin: 0 auto;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .navigation {
+    position: relative;
+    width: 1464px;
+    height: 164px;
+    margin: 0 0 0 5px;
+    font-size: 0px;
+    background: #ffffff;
+    overflow: hidden;
+  }
+  .holding-hands {
+    display: block;
+    position: relative;
+    height: 72px;
+    margin: 46px 0 0 80px;
+    color: #000000;
+    font-family: Julius Sans One, var(--default-font-family);
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 72px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 1;
+  }
+  .mobile-app-header {
+    position: relative;
+    width: 104px;
+    height: 42px;
+    margin: 4px 0 0 0;
+    border-top: 0.5px solid #e6e6e6;
+    z-index: 2;
+    overflow: hidden;
+  }
+  .icon-chevron-left {
+    position: absolute;
+    width: 32px;
+    height: 24px;
+    top: 9px;
+    left: 6px;
+    z-index: 3;
+  }
+  .chevron-left-thin {
+    position: relative;
+    width: 12.66px;
+    height: 16.859px;
+    margin: 3.571px 0 0 9.248px;
+    background: url(./defaultimg.jpeg)
+      no-repeat center;
+    background-size: 100% 100%;
+    z-index: 4;
+  }
+  .home {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: absolute;
+    width: 48px;
+    height: 24px;
+    top: 9px;
+    left: 38px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 23.8px;
+    text-align: center;
+    white-space: nowrap;
+    letter-spacing: -0.34px;
+    z-index: 5;
+    text-decoration: none;
+  }
+  .frame-1,
+  .div-frame,
+  .div-frame-5,
+  .frame-9,
+  .frame {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+    position: relative;
+    width: 392px;
+    margin: 212px auto 10px;
+    z-index: 12;
+    margin-bottom: 10px;
+    margin: 0 auto;
+    display: block;
+  }
+  .full-name {
+    align-self: stretch;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    min-width: 0;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 13;
+  }
+  .age {
+    align-self: stretch;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    min-width: 0;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 18;
+  }
+  .address {
+    align-self: stretch;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    min-width: 0;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 23;
+  }
+  .email {
+    align-self: stretch;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    min-width: 0;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 28;
+  } .flex-row-dab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    width: 253px;
+    height: 24px;
+    margin: 27px 0 0 579px;
+    z-index: 11;
+  }
+  .already-have-account {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    width: 195px;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 10;
+  }
+  .login {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    width: 44px;
+    height: 24px;
+    color: #000000;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 24px;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 11;
+    text-decoration: none;
+  }
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 8px;
+    position: relative;
+    width: 400px;
+    margin: 105px 0 0 523px;
+    z-index: 6;
+  }
+  .rectangle {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 0;
+    position: relative;
+    min-width: 0;
+    height: 1px;
+    background: #e6e6e6;
+    z-index: 7;
+  }
+  .or-organisation-login {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-shrink: 0;
+    flex-basis: auto;
+    position: relative;
+    width: 162px;
+    height: 24px;
+    color: #828282;
+    font-family: Inter, var(--default-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    white-space: nowrap;
+    z-index: 8;
+  }
+  .button {
+    display: block;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px; /* Adjusted padding */
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 auto;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    text-align: center;
+  }
+  
+  .button:hover {
+    background-color: #4f4f4f; /* Darker shade on hover */
+  }
+  
+  .rectangle-d {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 0;
+    position: relative;
+    min-width: 0;
+    height: 1px;
+    background: #e6e6e6;
+    z-index: 9;
+  }
+  /* You can keep the rest of your existing CSS here */
+.submit{
+  text-decoration: none;
+  color: #e0e0e0;
+  font-family: Inter, var(--default-font-family);
+}
+
+.field-input,
+.field-input-3,
+.input-field,
+.field-input-7,
+.field-input-b {
+  width: 25%; /* Make inputs fill their parent container */
+  height: 48px; /* Keep the input height consistent */
+  padding: 0 16px; /* Add padding to inputs */
+  border: 1px solid #e0e0e0; /* Keep border consistent */
+  border-radius: 8px; /* Keep border-radius consistent */
+  background: transparent; /* Keep background transparent */
+  font-family: Inter, var(--default-font-family);
+  font-size: 16px; /* Keep font-size consistent */
+  font-weight: 500; /* Keep font-weight consistent */
+  line-height: 24px; /* Keep line-height consistent */
+  color: #000000; /* Keep text color consistent */
+  margin-top: 8px; /* Adjust spacing */
+  outline: none; /* Remove outline */
+  margin: 0 auto;
+  display: block;
+}
+
+.label-placeholder,
+.label-placeholder-4,
+.label-placeholder-8,
+.label-placeholder-c {
+  color: #828282; /* Keep label color consistent */
+}
+
+.field,
+.field-2,
+.div-field,
+.field-6,
+.field-a {
+  position: relative; /* Keep position relative for pseudo-elements */
+  margin-top: 4px;
+  margin-top: 4px;
+  margin: 0 auto;
+  display: block;
+}
+
+.placeholder,
+.label-placeholder,
+.label-placeholder-4,
+.label-placeholder-8,
+.label-placeholder-c {
+  position: absolute; /* Position labels absolutely */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust vertically */
+  left: 16px; /* Adjust horizontally */
+  pointer-events: none; /* Allow clicking through labels */
+}
+
+.placeholder::before,
+.label-placeholder::before,
+.label-placeholder-4::before,
+.label-placeholder-8::before,
+.label-placeholder-c::before {
+  content: attr(placeholder); /* Use placeholder text as content */
+  color: inherit; /* Inherit color from parent */
+  transition: all 0.3s ease; /* Add transition for smoothness */
+}
+
+.field-input:focus + .placeholder::before,
+.field-input-3:focus + .label-placeholder::before,
+.input-field:focus + .label-placeholder-4::before,
+.field-input-7:focus + .label-placeholder-8::before,
+.field-input-b:focus + .label-placeholder-c::before {
+  transform: translateY(-170%); /* Move label up when input focused */
+  font-size: 12px; /* Shrink label font size when input focused */
+  color: #000000; /* Change label color when input focused */
+}
+.phone-number {
+  align-self: stretch;
+  flex-shrink: 0;
+  flex-basis: auto;
+  position: relative;
+  min-width: 0;
+  height: 24px;
+  color: #000000;
+  font-family: Inter, var(--default-font-family);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 33;
+}
