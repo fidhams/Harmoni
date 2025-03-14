@@ -39,7 +39,7 @@ const doneesignup = async (req, res) => {
     try {
       const { name, email, password, phone } = req.body;
       const donee = new Donee({ name, email, password, phone });
-      const user = await Donor.findOne({ email });
+      const user = await Donee.findOne({ email });
         if (!user) return res.status(400).json({ message: "User already exists" });
       await donee.save();
       res.status(201).json({ message: "Registration Application Submitted. Wait for approval" });

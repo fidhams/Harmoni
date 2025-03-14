@@ -1,70 +1,85 @@
 import React, { useState } from "react";
-import "../styles/login.css";
+//import "../styles/login.css";
 import { Link, useNavigate } from "react-router-dom";
+import { Button, Card, Field, Input, Stack } from "@chakra-ui/react"
 
 const DonorLogin = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+
 
   const handleSubmit = async (e) => {
+
+    e.preventDefault(); // Prevents page reload
+
     try {
       const response = await fetch("http://localhost:5000/api/auth/donor/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ email, password }),
       });
+
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
         navigate("/donordashboard");
-        console.log(data);
-        setMessage("Login successful!");
-        setMessageType("success");
+        console.log("logged",data);
       } else {
-        setMessage(data.message || "Login failed.");
-        setMessageType("error");
+        setError(data.message || "Login failed");
       }
-    } catch (error) {
-      setMessage("An error occurred. Please try again.");
-      setMessageType("error");
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+      console.error(err);
     }
   };
 
   return (
-    <div className="main-container">
+    <div className="main-container"  >
+      <Card.Root maxW="sm">
+        
 
-      {message && <div className={`popup-message ${messageType}`}>{message}</div>}
+      {error && <p className="error">{error}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div className="frame">
-          <span className="user-name">Email</span>
-          <div className="field">
-            <input className="field-input" type="email" name="email" placeholder="Enter your email" required value={formData.email} onChange={handleChange} />
-          </div>
-        </div>
-        <div className="frame">
-          <span className="password-input">Password</span>
-          <div className="field">
-            <input className="field-input" type="password" name="password" placeholder="Enter your password" required value={formData.password} onChange={handleChange} />
-          </div>
-        </div>
-        <button type="submit" className="button" >
-          <span className="login-6">Login</span>
-        </button>
+      <Card.Header>
+      <Card.Title>Login</Card.Title>
+      <Card.Description>
+        Login for donor and volunteers
+      </Card.Description>
+      </Card.Header>
+        
+      <form onSubmit={handleSubmit} style={{backgroundColor: 'black'}}>
+      <Card.Body>
+      <Stack gap="4" w="full">
+
+        <Field.Root>
+
+          <Field.Label>Email</Field.Label>
+            <Input type="email" name="email" placeholder="Enter your email" required value={email} onChange={(e) => setEmail(e.target.value)} />
+        </Field.Root>
+        <Field.Root>
+          <Field.Label>Password</Field.Label>
+            <Input type="password" name="password" placeholder="Enter your password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+        </Field.Root>
+          
+      </Stack>
+      </Card.Body>
+        <Button variant="solid" type="submit"  >
+          <span >Login</span>
+        </Button>
       </form>
+      </Card.Root>
       <div className="signup-section">
         <p>Don't have an account?</p>
         <Link to="/donorsignup" className="signup-button">Sign Up</Link>
       </div>
-      <div className="donee-login-link">
+      <div>
         <p>Are you an organization? </p>
-        <Link to="/doneelogin" className="doneebutton">Login as Organisation</Link>
+        <Link to="/doneelogin" className="signup-button">Login as Organisation</Link>
       </div>
     </div>
   );
