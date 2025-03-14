@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from './components/ui/provider';
+
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -29,6 +31,8 @@ import VolunteerRequestForm from './pages/volunteerreq';
 
 function App() {
   return (
+    <Provider>
+
     <Router>
       <Navbar />
       <Routes>
@@ -58,6 +62,7 @@ function App() {
       </Routes>
       <Footer />
     </Router>
+    </Provider>
   );
 }
 
