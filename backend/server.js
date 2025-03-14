@@ -11,6 +11,7 @@ const chatRoutes = require("./routes/chatRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const homeRoutes = require('./routes/homeRoutes');
 const impactRoutes = require('./routes/impactRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 
 const app = express();
@@ -29,6 +30,7 @@ app.use("/api/donations", donationRoutes);
 app.use("/api/volunteers", volunteerRoutes);
 app.use("/api/chat", chatRoutes);
 app.use('/api/impact-stories', impactRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Default route set to Home
 app.use('/', homeRoutes);
