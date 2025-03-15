@@ -6,7 +6,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const DonorSignup = () => {
   const [formData, setFormData] = useState({
@@ -73,6 +73,16 @@ const DonorSignup = () => {
           Sign Up
         </Button>
       </VStack>
+      <div className="login-section">
+        <p>Already have an Account?</p>
+        <Link to="/donorlogin" className="login-button" style={{color:'green' }} >Login as Donor</Link>
+      </div>
+
+      {/* ✅ Link to Donor Login */}
+      <div className="donor-login-link">
+        <p>Are you an Organisation? </p>
+        <Link to="/doneelogin" className="donee-button" style={{color:'green'}} >Login as Organisation</Link>
+      </div>
     </Box>
   );
 };

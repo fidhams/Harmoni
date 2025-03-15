@@ -31,19 +31,28 @@ const donorsignup = async (req, res) => {
 };
 
 const donorlogin = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const donor = await Donor.findOne({ email });
-    
-        if (!donor || !(await bcrypt.compare(password, donor.password))) {
-          return res.status(400).json({ message: "Invalid credentials" });
-        }
-    
-        const token = jwt.sign({ donorId: donor._id }, "SECRET_KEY", { expiresIn: "1h" });
-        res.json({ message: "Login successful!", token });
-      } catch (error) {
-        res.status(500).json({ error: "Error logging in" });
-      }
+  try {
+    const { email, password } = req.body;
+    const donor = await Donor.findOne({ email });
+
+    if (!donor) {
+      return res.status(404).json({ error: "Donor not found" });
+    }
+
+    // Check password
+    const isMatch = await bcrypt.compare(password, donor.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Generate JWT Token
+    const token = jwt.sign({ id: donor._id }, "your_secret_key", { expiresIn: "1h" });
+
+    res.json({ token, donor });
+
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 const doneesignup = async (req, res) => {
@@ -69,19 +78,33 @@ const doneesignup = async (req, res) => {
 };
 
 const doneelogin = async (req, res) => {
-    try {
-      const { email, password } = req.body;
-      const donee = await Donee.findOne({ email });
-  
-      if (!donee || !(await bcrypt.compare(password, donee.password))) {
-        return res.status(400).json({ message: "Invalid credentials" });
-      }
-  
-      const token = jwt.sign({ doneeId: donee._id }, "SECRET_KEY", { expiresIn: "1h" });
-      res.json({ message: "Login successful!", token });
-    } catch (error) {
-      res.status(500).json({ error: "Error logging in" });
+  try {
+    const { email, password } = req.body;
+    const donee = await Donee.findOne({ email });
+
+    if (!donee) {
+      return res.status(404).json({ error: "Donee not found" });
     }
+
+    // Check password
+    const isMatch = await bcrypt.compare(password, donee.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    // Check if the donee is verified
+    if (!donee.verified) {
+      return res.status(403).json({ error: "Your account is not verified. Please contact an admin." });
+    }
+
+    // Generate JWT Token
+    const token = jwt.sign({ id: donee._id }, "your_secret_key", { expiresIn: "1h" });
+
+    res.json({ token, donee });
+
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 
