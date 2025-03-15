@@ -54,7 +54,7 @@ const DoneeSignup = () => {
 
   return (
     <Box maxW="400px" mx="auto" mt={10} p={5} shadow="md" borderWidth="1px" borderRadius="md">
-      <Text fontSize="2xl" fontWeight="bold" mb={3}>donee Signup</Text>
+      <Text fontSize="2xl" fontWeight="bold" mb={3}>Organisation Signup</Text>
       
       {message && (
         <Text color={message.includes("Successful") ? "green.500" : "red.500"} mb={3}>
