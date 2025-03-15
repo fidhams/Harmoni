@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "../styles/signup.css";
+import {
+  Box,
+  Text,
+  VStack,
+  Input,
+  Button,
+} from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const DoneeSignup = () => {
   const [formData, setFormData] = useState({
@@ -8,10 +14,10 @@ const DoneeSignup = () => {
     email: "",
     password: "",
     phone: "",
-    location: "", // Optional location field
+    address: "",
   });
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(""); 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -20,68 +26,54 @@ const DoneeSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setMessage(""); 
+
     try {
-      const response = await fetch("http://localhost:5000/api/auth/donee/signup", {
+      const res = await fetch("http://localhost:5000/api/auth/donee/signup", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
       });
-      const data = await response.json();
-      if (response.ok) {
-        navigate("/doneelogin");
-        setMessage("Signup successful! You can now login.");
-        setMessageType("success");
+
+      const data = await res.json();
+      if (res.ok) {
+        setMessage("Application Successful. Wait for Verification! Redirecting...");
+        setTimeout(() => navigate("/doneelogin"), 2000);
       } else {
-        setMessage(data.message || "Signup failed.");
-        setMessageType("error");
+        setMessage(data.error || "Signup failed");
       }
     } catch (error) {
       setMessage("An error occurred. Please try again.");
-      setMessageType("error");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="main-container">
-      <div className="frame">
-        <div className="copy"><span className="signup-1">Donee Signup</span></div>
-      </div>
-      {message && <div className={`popup-message ${messageType}`}>{message}</div>}
-      <form onSubmit={handleSubmit}>
-        <div className="frame-2">
-          <span className="user-name">Organization Name</span>
-          <input type="text" name="name" placeholder="Enter your organization name" required value={formData.name} onChange={handleChange} />
-        </div>
-        <div className="frame-3">
-          <span className="email">Email</span>
-          <input type="email" name="email" placeholder="Enter your email" required value={formData.email} onChange={handleChange} />
-        </div>
-        <div className="frame-3">
-          <span className="password">Password</span>
-          <input type="password" name="password" placeholder="Enter your password" required value={formData.password} onChange={handleChange} />
-        </div>
-        <div className="frame-3">
-          <span className="phone">Phone Number</span>
-          <input type="text" name="phone" placeholder="Enter your phone number" required value={formData.phone} onChange={handleChange} />
-        </div>
-        {/* <div className="frame-3">
-          <span className="location">Location (Optional)</span>
-          <input type="text" name="location" placeholder="Enter your location" value={formData.location} onChange={handleChange} />
-        </div> */}
-        <button type="submit" className="button"><span className="signup-6">Sign Up</span></button>
-      </form>
+    <Box maxW="400px" mx="auto" mt={10} p={5} shadow="md" borderWidth="1px" borderRadius="md">
+      <Text fontSize="2xl" fontWeight="bold" mb={3}>donee Signup</Text>
+      
+      {message && (
+        <Text color={message.includes("Successful") ? "green.500" : "red.500"} mb={3}>
+          {message}
+        </Text>
+      )}
 
-      <div className="login-section">
-        <p>Already have an account?</p>
-        <Link to="/doneelogin" className="login-button">Login as Donee</Link>
-      </div>
-
-      {/* ✅ Link to Donor Signup */}
-      <div className="donor-signup-link">
-        <p>Are you a donor?</p>
-        <Link to="/donorsignup" className="donor-button">Sign Up as Donor</Link>
-      </div>
-    </div>
+      <VStack as="form" spacing={3} onSubmit={handleSubmit}>
+        <Input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required color="black" />
+        <Input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required color="black" />
+        <Input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required color="black" />
+        <Input type="tel" name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} required color="black" />
+        <Input type="text" name="address" placeholder="Address (optional)" value={formData.address} onChange={handleChange} color="black" />
+        
+        <Button variant="ghost" type="submit" colorScheme="blue" isLoading={loading} width="full">
+          Sign Up
+        </Button>
+      </VStack>
+    </Box>
   );
 };
 

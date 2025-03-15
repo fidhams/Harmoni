@@ -84,6 +84,9 @@ const adminController = {
     getAllDonors: async (req, res) => {
       try {
         const donors = await Donor.find();
+        if (!Array.isArray(donors)) {
+          return res.status(500).json({ error: "Invalid response format" });
+        }
         res.json(donors);
       } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
@@ -108,6 +111,9 @@ const adminController = {
     getAllDonees: async (req, res) => {
       try {
         const donees = await Donee.find();
+        if (!Array.isArray(donees)) {
+          return res.status(500).json({ error: "Invalid response format" });
+        }
         res.json(donees);
       } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
