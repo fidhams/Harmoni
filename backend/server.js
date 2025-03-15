@@ -12,7 +12,7 @@ const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const homeRoutes = require('./routes/homeRoutes');
 const impactRoutes = require('./routes/impactRoutes');
 const adminRoutes = require('./routes/adminRoutes');
-
+const donorDashboardRoutes = require('./routes/donorDashboardRoutes');
 
 const app = express();
 
@@ -28,6 +28,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/organizations", orgRoutes);
 app.use("/api/donations", donationRoutes);
 app.use("/api/volunteers", volunteerRoutes);
+app.use("/api/donor", donorDashboardRoutes)
 app.use("/api/chat", chatRoutes);
 app.use('/api/impact-stories', impactRoutes);
 app.use('/api/admin', adminRoutes);

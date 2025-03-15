@@ -6,7 +6,7 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const DoneeSignup = () => {
   const [formData, setFormData] = useState({
@@ -67,13 +67,24 @@ const DoneeSignup = () => {
         <Input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required color="black" />
         <Input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required color="black" />
         <Input type="tel" name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} required color="black" />
-        <Input type="text" name="address" placeholder="Address (optional)" value={formData.address} onChange={handleChange} color="black" />
+        <Input type="text" name="address" placeholder="Address" value={formData.address} onChange={handleChange} color="black" />
         
         <Button variant="ghost" type="submit" colorScheme="blue" isLoading={loading} width="full">
           Sign Up
         </Button>
       </VStack>
+      <div className="login-section">
+        <p>Already have an Account?</p>
+        <Link to="/doneelogin" className="login-button" style={{color:'green' }} >Login for Organisation</Link>
+      </div>
+
+      {/* ✅ Link to Donor Login */}
+      <div className="donor-login-link">
+        <p>Are you a donor? </p>
+        <Link to="/donorlogin" className="donor-button" style={{color:'green'}} >Login as Donor</Link>
+      </div>
     </Box>
+
   );
 };
 

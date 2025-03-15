@@ -13,6 +13,7 @@ import DoneeSignup from "./pages/doneesignup";
 
 import DonorDashboard from "./pages/DonorDashboard";
 import DoneeDashboard from "./pages/DoneeDashboard";
+import EditProfile from "./pages/EditProfile";
 
 import Donations from "./pages/Donations";
 import Volunteer from "./pages/Volunteer";
@@ -54,6 +55,7 @@ function App() {
           {/* Dashboard Routes */}
           <Route path="/donordashboard" element={<DonorDashboard />} />
           <Route path="/doneedashboard" element={<DoneeDashboard />} />
+          <Route path="/donor/edit-profile" element={<EditProfile />} />
 
           {/* Other Pages */}
           <Route path="/donations" element={<Donations />} />
