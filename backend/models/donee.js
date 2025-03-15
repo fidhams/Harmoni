@@ -11,6 +11,7 @@ const doneeSchema = new mongoose.Schema({
     latitude: { type: Number, required: false },  // Optional latitude
     longitude: { type: Number, required: false }, // Optional longitude
   },
+  verified: { type: Boolean, default: false },
 });
 
 // Hash password before saving

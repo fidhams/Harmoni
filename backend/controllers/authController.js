@@ -9,17 +9,26 @@ app.use(express.json());
 
 
 const donorsignup = async (req, res) => {
-    try {
-      const { name, email, password, phone } = req.body;
-      const user = await Donor.findOne({ email });
-      if (!user) return res.status(400).json({ message: "User already exists" });
-      const donor = new Donor({ name, email, password, phone });
-      await donor.save();
-      res.status(201).json({ message: "Donor registered successfully!" });
-    } catch (error) {
-      res.status(500).json({ error: "Error signing up" });
+  try {
+    const { name, email, password, phone, address } = req.body;
+
+    if (!name || !email || !password || !phone) {
+      return res.status(400).json({ error: "All required fields must be filled." });
     }
-  };
+
+    const existingDonor = await Donor.findOne({ email });
+    if (existingDonor) {
+      return res.status(409).json({ error: "Email already exists" });
+    }
+
+    const newDonor = new Donor({ name, email, password, phone, address });
+    await newDonor.save();
+
+    res.status(201).json({ message: "Signup successful", donor: newDonor });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error", details: error.message });
+  }
+};
 
 const donorlogin = async (req, res) => {
     try {
@@ -38,16 +47,25 @@ const donorlogin = async (req, res) => {
 };
 
 const doneesignup = async (req, res) => {
-    try {
-      const { name, email, password, phone } = req.body;
-      const donee = new Donee({ name, email, password, phone });
-      const user = await Donee.findOne({ email });
-        if (!user) return res.status(400).json({ message: "User already exists" });
-      await donee.save();
-      res.status(201).json({ message: "Registration Application Submitted. Wait for approval" });
-    } catch (error) {
-      res.status(500).json({ error: "Error signing up" });
+  try {
+    const { name, email, password, phone, address } = req.body;
+
+    if (!name || !email || !password || !phone) {
+      return res.status(400).json({ error: "All required fields must be filled." });
     }
+
+    const existingDonee = await Donee.findOne({ email });
+    if (existingDonee) {
+      return res.status(409).json({ error: "Email already exists" });
+    }
+
+    const newDonee = new Donee({ name, email, password, phone, address });
+    await newDonee.save();
+
+    res.status(201).json({ message: "Application Submitted. Wait for Approval.", donee: newDonee });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error", details: error.message });
+  }
 };
 
 const doneelogin = async (req, res) => {
