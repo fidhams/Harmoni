@@ -32,6 +32,8 @@ const DoneeLogin = () => {
 
       // Store token and navigate to donee dashboard
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userRole", "donee"); // ✅ Store userRole
+
       navigate("/doneedashboard");
 
     } catch (error) {

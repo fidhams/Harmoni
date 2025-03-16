@@ -1,8 +1,30 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import '../styles/Navbar.css';
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "../styles/Navbar.css";
+
 
 function Navbar() {
+  const navigate = useNavigate();
+  const userRole = localStorage.getItem("userRole");
+  const isLoggedIn = localStorage.getItem("token") !== null;
+  console.log("userRole",userRole);
+  console.log("token:",localStorage.getItem("token"));
+
+  // Function to get the correct dashboard route
+  const getDashboardRoute = () => {
+    if (userRole === "donor") return "/donordashboard";
+    if (userRole === "donee") return "/doneedashboard";
+    if (userRole === "admin") return "/admin";
+    return "/";
+  };
+
+  // Function to handle logout
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+    window.location.reload(); // Ensure UI updates
+  };
+
   return (
     <nav className="navbar">
       <h1>Harmoni</h1>
@@ -12,7 +34,15 @@ function Navbar() {
         <li><Link to="/volunteer">Volunteer</Link></li>
         <li><Link to="/impact-stories">Impact Stories</Link></li>
         <li><Link to="/contact">Contact</Link></li>
-        <li><Link to="/donorlogin">Login</Link></li>
+
+        {isLoggedIn ? (
+          <>
+            <li><Link to={getDashboardRoute()}>Dashboard</Link></li>
+            <li><Link to="/" onClick={handleLogout}>Logout</Link></li>
+          </>
+        ) : (
+          <li><Link to="/donorlogin">Login</Link></li>
+        )}
       </ul>
     </nav>
   );

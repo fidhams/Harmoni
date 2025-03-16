@@ -28,6 +28,9 @@ const DonorLogin = () => {
 
       // Store token and navigate to donor dashboard
       localStorage.setItem("token", data.token);
+      localStorage.setItem("userRole", "donor"); // ✅ Store userRole
+      console.log("user:",data.userRole);
+
       navigate("/donordashboard");
 
     } catch (error) {

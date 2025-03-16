@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const express = require("express");
 
+
 const app = express();
 app.use(express.json());
 
@@ -46,9 +47,9 @@ const donorlogin = async (req, res) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign({ id: donor._id }, "your_secret_key", { expiresIn: "1h" });
+    const token = jwt.sign({ id: donor._id, userRole: "donor" }, process.env.JWT_SECRET, { expiresIn: "5h" });
 
-    res.json({ token, donor });
+    res.json({ token, donor }); // ✅ Ensure token and donor are both sent
 
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
@@ -98,7 +99,7 @@ const doneelogin = async (req, res) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign({ id: donee._id }, "your_secret_key", { expiresIn: "1h" });
+    const token = jwt.sign({ id: donee._id, userRole: "donee" }, "your_secret_key", { expiresIn: "5h" });
 
     res.json({ token, donee });
 
