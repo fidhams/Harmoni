@@ -9,6 +9,7 @@ function Navbar() {
   const isLoggedIn = localStorage.getItem("token") !== null;
   console.log("userRole",userRole);
   console.log("token:",localStorage.getItem("token"));
+  const isAdmin = localStorage.getItem("adminToken") != null;
 
   // Function to get the correct dashboard route
   const getDashboardRoute = () => {
@@ -35,7 +36,7 @@ function Navbar() {
         <li><Link to="/impact-stories">Impact Stories</Link></li>
         <li><Link to="/contact">Contact</Link></li>
 
-        {isLoggedIn ? (
+        {(isLoggedIn || isAdmin ) ? (
           <>
             <li><Link to={getDashboardRoute()}>Dashboard</Link></li>
             <li><Link to="/" onClick={handleLogout}>Logout</Link></li>
