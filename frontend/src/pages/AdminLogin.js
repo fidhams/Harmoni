@@ -20,6 +20,7 @@ const AdminLogin = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("adminToken", data.token);
+        localStorage.setItem("userRole", "admin");
         navigate("/admin");
       } else {
         alert(data.error || "Login failed");

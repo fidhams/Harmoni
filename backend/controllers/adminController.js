@@ -63,7 +63,7 @@ const adminController = {
           return res.status(401).json({ error: "Invalid credentials" });
         }
   
-        const token = jwt.sign({ id: admin._id }, "your_secret_key", { expiresIn: "1h" });
+        const token = jwt.sign({ id: admin._id, userRole: "admin" }, "your_secret_key", { expiresIn: "1h" });
         res.json({ token, admin });
       } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });
