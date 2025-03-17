@@ -1,14 +1,13 @@
-//The Event model tracks events posted by organizations.
 const mongoose = require("mongoose");
 
-const EventSchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    date: { type: Date, required: true },
-    location: { type: String, required: true },
-    organization: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    volunteerCount: { type: Number, default: 0 },
-    createdAt: { type: Date, default: Date.now },
+const eventSchema = new mongoose.Schema({
+  donee: { type: mongoose.Schema.Types.ObjectId, ref: "donee", required: true },
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  date: { type: Date, required: true },
+  venue: { type: String, required: true },
+  volunteerRequest: { type: Boolean, default: false }, // If volunteers are needed
+  volunteers: [{ type: mongoose.Schema.Types.ObjectId, ref: "donor" }] // Donors who applied
 });
 
-module.exports = mongoose.model("Event", EventSchema);
+module.exports = mongoose.model("Event", eventSchema);

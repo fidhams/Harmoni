@@ -3,7 +3,7 @@ const Donor = require("../models/donor");
 const Donee = require("../models/donee");
 const Donation = require("../models/Donation");
 const Event = require("../models/Event");
-const Need = require("../models/Need");
+const Need = require("../models/Needs");
 const VolunteerRequest = require("../models/VolunteerRequest");
 
 const bcrypt = require("bcryptjs");

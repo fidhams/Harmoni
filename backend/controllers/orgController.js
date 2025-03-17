@@ -1,6 +1,6 @@
 const Event = require("../models/Event"); // Model for organization events
 const VolunteerRequest = require("../models/VolunteerRequest"); // Model for volunteer requests
-const Need = require("../models/Need"); // Model for organizational needs
+const Need = require("../models/Needs"); // Model for organizational needs
 
 // Controller to create a new event
 const createEvent = async (req, res) => {
