@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { VStack, Input, Textarea, Button, Select, useToast, Box, Text } from "@chakra-ui/react";
+import { VStack, Input, Textarea, Button, Box, Text } from "@chakra-ui/react";
 
 const EditEvent = () => {
-  const { eventId } = useParams();
+  const { eventId } = useParams(); // Extract eventId from the URL
   const navigate = useNavigate();
-  const toast = useToast();
+
   const [eventData, setEventData] = useState({
     name: "",
     date: "",
@@ -20,6 +20,7 @@ const EditEvent = () => {
         const res = await fetch(`http://localhost:5000/api/donee/event/${eventId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
+
         if (!res.ok) throw new Error("Failed to fetch event details");
 
         const data = await res.json();
@@ -57,22 +58,11 @@ const EditEvent = () => {
 
       if (!res.ok) throw new Error("Failed to update event");
 
-      toast({
-        title: "Event updated successfully!",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-      });
-
-      navigate("/donee-dashboard");
+      alert("Event updated successfully!");
+      navigate("/doneedashboard"); // Navigating to donee dashboard after update
     } catch (error) {
       console.error("Error updating event:", error);
-      toast({
-        title: "Error updating event.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
+      alert("Error updating event. Please try again.");
     }
   };
 
@@ -95,19 +85,37 @@ const EditEvent = () => {
 
       <Box>
         <Text fontWeight="bold" color="black">Description</Text>
-        <Textarea name="description" value={eventData.description} onChange={handleChange} color="black" border="1px solid black" style={{ whiteSpace: "pre-line" }} />
+        <Textarea
+          name="description"
+          value={eventData.description}
+          onChange={handleChange}
+          color="black"
+          border="1px solid black"
+          style={{ whiteSpace: "pre-wrap" }} // Ensures line breaks remain
+        />
       </Box>
 
       <Box>
         <Text fontWeight="bold" color="black">Volunteer Request</Text>
-        <Select name="volunteerRequest" value={eventData.volunteerRequest} onChange={handleChange} color="black" border="1px solid black">
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </Select>
+        <select
+          name="volunteerRequest"
+          value={eventData.volunteerRequest}
+          onChange={handleChange}
+          style={{
+            // color: "black",
+            border: "1px solid black",
+            padding: "8px",
+            width: "100%",
+            borderRadius: "5px",
+          }}
+        >
+          <option value="true">Yes</option>
+          <option value="false">No</option>
+        </select>
       </Box>
 
       <Button colorScheme="blue" onClick={handleSubmit}>Update Event</Button>
-      <Button colorScheme="gray" onClick={() => navigate("/donee-dashboard")}>Cancel</Button>
+      <Button colorScheme="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>
     </VStack>
   );
 };
