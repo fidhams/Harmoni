@@ -24,6 +24,7 @@ import PostDonation from "./pages/PostDonation";
 import DoneeDashboard from "./pages/DoneeDashboard";
 import DoneeEdit from "./pages/DoneeEdit";
 import AddEvent from "./pages/AddEvent";
+import EditEvent from "./pages/EditEvent";
 
 
 import Volunteer from "./pages/Volunteer";
@@ -70,6 +71,7 @@ function App() {
           <Route path="/doneedashboard" element={<DoneeDashboard />} />
           <Route path="/donee/edit-profile" element={<DoneeEdit />} />
           <Route path="/add-event" element={<AddEvent />} />
+          <Route path="/edit-event/:eventId" element={<EditEvent />} />
 
 
           {/* Other Pages */}

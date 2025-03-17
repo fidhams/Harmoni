@@ -123,14 +123,42 @@ router.delete("/event/:id", protect, async (req, res) => {
   }
 });
 
+
+// Get a single event by ID
+router.get("/event/:eventId", protect, async (req, res) => {
+    try {
+      const { eventId } = req.params;
+  
+      // Find event by ID
+      const event = await Event.findById(eventId);
+      
+      if (!event) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+  
+      res.status(200).json(event); // Send event details
+    } catch (error) {
+      console.error("Error fetching event:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
 // Edit Event
 router.put("/event/:id", protect, async (req, res) => {
     try {
+      const { name, date, venue, description, volunteerRequest } = req.body;
+  
+      // Convert volunteerRequest to Boolean
+      const isVolunteerRequest = volunteerRequest === "Yes";
+  
       const updatedEvent = await Event.findByIdAndUpdate(
         req.params.id,
         {
-          ...req.body,
-          description: req.body.description.replace(/\r\n/g, "\n"), // Normalize line breaks
+          name,
+          date,
+          venue,
+          description: description.replace(/\r\n/g, "\n"), // Normalize line breaks
+          volunteerRequest: isVolunteerRequest, // Ensure boolean value
         },
         { new: true, runValidators: true }
       );
@@ -145,6 +173,7 @@ router.put("/event/:id", protect, async (req, res) => {
       res.status(500).json({ message: "Error updating event", error: error.message });
     }
   });
+  
   
   
   
