@@ -8,10 +8,15 @@ const doneeSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   address: { type: String, required: false },
   location: {
-    latitude: { type: Number, required: false },  // Optional latitude
-    longitude: { type: Number, required: false }, // Optional longitude
+    latitude: { type: Number, required: false },
+    longitude: { type: Number, required: false },
   },
   verified: { type: Boolean, default: false },
+  profileImage: { type: String }, // URL of profile image
+  description: { type: String },  // Short bio or description
+  Event: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }], // Reference to Events
+  Needs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Needs" }], // Reference to Donation Needs
+  ImpactStory: [{ type: mongoose.Schema.Types.ObjectId, ref: "ImpactStory" }] // Reference to Impact Stories
 });
 
 // Hash password before saving

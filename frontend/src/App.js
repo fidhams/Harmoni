@@ -4,20 +4,28 @@ import { Provider } from "./components/ui/provider";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+
+
 import Home from "./pages/Home";
+import Donations from "./pages/Donations";
+
 
 import DonorLogin from "./pages/donorlogin";
 import DoneeLogin from "./pages/doneelogin";
 import DonorSignup from "./pages/donorsignup";
 import DoneeSignup from "./pages/doneesignup";
 
+
 import DonorDashboard from "./pages/DonorDashboard";
-import DoneeDashboard from "./pages/DoneeDashboard";
 import EditProfile from "./pages/EditProfile";
 import PostDonation from "./pages/PostDonation";
 
 
-import Donations from "./pages/Donations";
+import DoneeDashboard from "./pages/DoneeDashboard";
+import DoneeEdit from "./pages/DoneeEdit";
+import AddEvent from "./pages/AddEvent";
+
+
 import Volunteer from "./pages/Volunteer";
 import ImpactStories from "./pages/ImpactStories";
 import Contactus from "./pages/Contactus";
@@ -26,7 +34,6 @@ import ItemsRequest from "./pages/itemsreq";
 
 import UserDonateForm from "./pages/userdonate";
 import UserVolunteerForm from "./pages/uservolunteer";
-import DonationsPage from "./pages/viewd";
 import VolunteerRequestForm from "./pages/volunteerreq";
 
 import AdminLogin from "./pages/AdminLogin";
@@ -54,11 +61,15 @@ function App() {
           <Route path="/donorsignup" element={<DonorSignup />} />
           <Route path="/doneesignup" element={<DoneeSignup />} />
 
-          {/* Dashboard Routes */}
+          {/*Donor Dashboard Routes */}
           <Route path="/donordashboard" element={<DonorDashboard />} />
-          <Route path="/doneedashboard" element={<DoneeDashboard />} />
           <Route path="/donor/edit-profile" element={<EditProfile />} />
           <Route path="/post-donation" element={<PostDonation />} />
+          
+          {/* Donee Dashboard */}
+          <Route path="/doneedashboard" element={<DoneeDashboard />} />
+          <Route path="/donee/edit-profile" element={<DoneeEdit />} />
+          <Route path="/add-event" element={<AddEvent />} />
 
 
           {/* Other Pages */}
@@ -71,7 +82,6 @@ function App() {
           <Route path="/itemreq" element={<ItemsRequest />} />
           <Route path="/donate" element={<UserDonateForm />} />
           <Route path="/volunteer" element={<UserVolunteerForm />} />
-          <Route path="/view" element={<DonationsPage />} />
           <Route path="/vreq" element={<VolunteerRequestForm />} />
 
           {/* 404 Not Found */}
