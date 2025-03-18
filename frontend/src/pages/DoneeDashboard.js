@@ -130,7 +130,10 @@ const DoneeDashboard = () => {
       <Button colorScheme="green" onClick={() => navigate("/add-need")}>Add Need</Button>
       {needs.length > 0 ? needs.map((need) => (
         <Box key={need._id} p={3} shadow="sm" borderWidth="1px" borderRadius="md">
-          <Text>{need.itemName}</Text>
+          <Text fontWeight="bold">{need.itemName}</Text>
+          <Text fontSize="sm" color="gray.500">Category: {need.category}</Text>
+          <Text fontSize="sm" color="gray.500">Quantity: {need.quantity}</Text>
+          <Text fontSize="sm" color="gray.500" style={{ whiteSpace: "pre-line" }} >Description: {need.description}</Text>
           <HStack>
             <Button colorScheme="blue" onClick={() => navigate(`/edit-need/${need._id}`)}>Edit</Button>
             <Button colorScheme="red" onClick={() => handleDeleteNeed(need._id)}>Delete</Button>

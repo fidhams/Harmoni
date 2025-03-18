@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Donee = require("../models/donee");
 const Event = require("../models/Event");
-const DonationNeed = require("../models/Needs");
+const Needs = require("../models/Needs");
 const ImpactStory = require("../models/ImpactStory");
 const { protect } = require("../middleware/authMiddleware");
 const bcrypt = require("bcrypt");
@@ -181,25 +181,98 @@ router.put("/event/:id", protect, async (req, res) => {
 
 //////////////////////////////////////////////////NEEDS//////////////////////////////////////////////
 // Add Donation Need
+// router.post("/needs", protect, async (req, res) => {
+//   try {
+//     const need = new Needs({ ...req.body, createdBy: req.user.id });
+//     await need.save();
+//     await Donee.findByIdAndUpdate(req.user.id, { $push: { Needs: need._id } });
+//     res.status(201).json(need);
+//   } catch (error) {
+//     res.status(500).json({ message: "Error creating need" });
+//   }
+// });
+
+// Add a new need
 router.post("/needs", protect, async (req, res) => {
   try {
-    const need = new DonationNeed({ ...req.body, createdBy: req.user.id });
-    await need.save();
-    await Donee.findByIdAndUpdate(req.user.id, { $push: { Needs: need._id } });
-    res.status(201).json(need);
+    const { itemName, category, quantity, description } = req.body;
+
+    const newNeed = new Needs({
+      donee: req.user.id,
+      itemName,
+      category,
+      quantity,
+      description,
+    });
+
+    await newNeed.save();
+
+    await Donee.findByIdAndUpdate(
+      req.user.id,
+      { $push: { Needs: newNeed._id } },
+      { new: true }
+    );
+    
+    res.status(201).json(newNeed);
   } catch (error) {
-    res.status(500).json({ message: "Error creating need" });
+    console.error("Error adding need:", error);
+    res.status(500).json({ message: "Error adding need", error: error.message });
+  }
+});
+
+// Get need by ID
+router.get("/needs/:id", protect, async (req, res) => {
+  try {
+    const need = await Needs.findById(req.params.id);
+    if (!need) return res.status(404).json({ message: "Need not found" });
+    res.json(need);
+  } catch (error) {
+    console.error("Error fetching need:", error);
+    res.status(500).json({ message: "Error fetching need", error: error.message });
+  }
+});
+
+// Update a need
+router.put("/needs/:id", protect, async (req, res) => {
+  try {
+    const { itemName, category, quantity, description, fulfilled } = req.body;
+
+    const updatedNeed = await Needs.findByIdAndUpdate(
+      req.params.id,
+      { itemName, category, quantity, description, fulfilled },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedNeed) return res.status(404).json({ message: "Need not found" });
+
+    res.json(updatedNeed);
+  } catch (error) {
+    console.error("Error updating need:", error);
+    res.status(500).json({ message: "Error updating need", error: error.message });
   }
 });
 
 // Delete Need
 router.delete("/needs/:id", protect, async (req, res) => {
   try {
-    await DonationNeed.findByIdAndDelete(req.params.id);
-    await Donee.findByIdAndUpdate(req.user.id, { $pull: { Needs: req.params.id } });
-    res.json({ message: "Need deleted" });
+    const need = await Needs.findById(req.params.id);
+    if (!need) return res.status(404).json({ message: "Need not found" });
+
+    if (need.donee.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Unauthorized to delete this need" });
+    }
+
+    await Needs.findByIdAndDelete(req.params.id);
+
+    // Remove need ID from the donee's 'needs' array
+    await Donee.findByIdAndUpdate(req.user.id, {
+      $pull: { Needs: req.params.id },
+    });
+
+    res.json({ message: "Need deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Error deleting need" });
+    console.error("Error deleting need:", error);
+    res.status(500).json({ message: "Error deleting need", error: error.message });
   }
 });
 

@@ -33,6 +33,7 @@ const DoneeProfile = () => {
         if (res.status === 200 && res.data && res.data.profile) {
           setProfile({
             ...res.data.profile,
+            password: "",
             latitude: res.data.profile?.location?.latitude || "",
             longitude: res.data.profile?.location?.longitude || "",
             profileImage: null,
