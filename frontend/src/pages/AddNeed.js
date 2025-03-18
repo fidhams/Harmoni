@@ -12,6 +12,7 @@ const NeedForm = ({ isEditing }) => {
     category: "Clothes",
     quantity: 1,
     description: "",
+    fulfilled: false,
   });
 
   useEffect(() => {
@@ -33,8 +34,8 @@ const NeedForm = ({ isEditing }) => {
   }, [isEditing, needId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNeedData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setNeedData((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
   const handleSubmit = async (e) => {
@@ -88,6 +89,13 @@ const NeedForm = ({ isEditing }) => {
         <Text fontWeight="bold" color="black">Description</Text>
         <Textarea name="description" value={needData.description} onChange={handleChange} color="black" border="1px solid black" />
       </Box>
+
+      {isEditing && (
+        <Box>
+          <Text fontWeight="bold" color="black">Mark as Fulfilled</Text>
+          <input type="checkbox" name="fulfilled" checked={needData.fulfilled} onChange={handleChange} style={{ marginLeft: "10px" }} />
+        </Box>
+      )}
 
       <Button colorScheme="blue" onClick={handleSubmit}>{isEditing ? "Update Need" : "Add Need"}</Button>
       <Button colorScheme="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>

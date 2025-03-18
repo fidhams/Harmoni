@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, Button, VStack, HStack, Image } from "@chakra-ui/react";
+import { Box, Text, Button, VStack, HStack, Image, Badge } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const DoneeDashboard = () => {
@@ -70,6 +70,8 @@ const DoneeDashboard = () => {
     }
   };
 
+  
+
   return (
     <VStack spacing={5} p={5} align="center">
       <Text fontSize="2xl" fontWeight="bold">Donee Dashboard</Text>
@@ -129,7 +131,10 @@ const DoneeDashboard = () => {
       <Text fontSize="xl" fontWeight="bold">Posted Needs</Text>
       <Button colorScheme="green" onClick={() => navigate("/add-need")}>Add Need</Button>
       {needs.length > 0 ? needs.map((need) => (
-        <Box key={need._id} p={3} shadow="sm" borderWidth="1px" borderRadius="md">
+        <Box key={need._id} p={5} shadow="sm" borderWidth="1px" borderRadius="md">
+          <Badge bg={need.fulfilled ? "green.400" : "red.400"} color="white" >
+              {need.fulfilled ? "Completed" : "Pending"}
+          </Badge>
           <Text fontWeight="bold">{need.itemName}</Text>
           <Text fontSize="sm" color="gray.500">Category: {need.category}</Text>
           <Text fontSize="sm" color="gray.500">Quantity: {need.quantity}</Text>
