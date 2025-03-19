@@ -13,6 +13,7 @@ const DoneeDashboard = () => {
     const fetchDashboardData = async () => {
       try {
         const res = await fetch("http://localhost:5000/api/donee/dashboard", {
+          method: "GET",
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
         if (!res.ok) throw new Error("Failed to fetch data");
@@ -33,7 +34,7 @@ const DoneeDashboard = () => {
 
   const handleDeleteImpactStory = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/donee/impact-stories/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/donee/story/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
@@ -76,7 +77,7 @@ const DoneeDashboard = () => {
     <VStack spacing={5} p={5} align="center">
       <Text fontSize="2xl" fontWeight="bold">Donee Dashboard</Text>
       {profile && (
-  <HStack spacing={5} p={5} shadow="md" borderWidth="1px" borderRadius="md">
+  <HStack spacing={3} p={3} shadow="md" borderWidth="1px" borderRadius="md" width="100%">
     {profile.profileImage && (
       <Image
         src={`http://localhost:5000/uploads/${profile.profileImage}`}
@@ -91,7 +92,11 @@ const DoneeDashboard = () => {
         <Text>Address: {profile.address}</Text>
         <Text>Phone: {profile.phone}</Text>
         <Text>Description: {profile.description || "No description provided"}</Text>
-        <Text>Location: {profile.location?.latitude}, {profile.location?.longitude}</Text>
+        {profile.location ? (
+          <Text>Location: {profile.location.latitude}, {profile.location.longitude}</Text>
+        ) : (
+          <Text>Location: Not Available</Text>
+        )}
         <Button colorScheme="blue" onClick={() => navigate("/donee/edit-profile")}>
           Edit Profile
         </Button>
@@ -150,14 +155,17 @@ const DoneeDashboard = () => {
       <Button colorScheme="green" onClick={() => navigate("/add-impact-story")}>Add Impact Story</Button>
       
       {impactStories.length > 0 ? impactStories.map((story) => (
-  <HStack key={story._id} p={3} shadow="sm" borderWidth="1px" borderRadius="md" align="start">
-    {story.image && (
+    <Box key={story._id} style={{ whiteSpace: "pre-line" }} width="100%">
+    <HStack p={3} shadow="sm" borderWidth="1px" borderRadius="md" align="start">
+
+      
+      {story.image && (
       <Image
-        src={`http://localhost:5000/uploads/${story.image}`}
-        alt={story.title}
-        boxSize="100px"
-        borderRadius="md"
-        objectFit="cover"
+      src={`http://localhost:5000/uploads/${story.image}`}
+      alt={story.title}
+      boxSize="100px"
+      borderRadius="md"
+      objectFit="cover"
       />
     )}
       <VStack align="start">
@@ -169,23 +177,14 @@ const DoneeDashboard = () => {
         </HStack>
       </VStack>
     </HStack>
-  )) : <Text>No impact stories posted yet.</Text>}
+    </Box>
+    )) : <Text>No impact stories posted yet.</Text>}
+  </VStack>
 
-      
-      
-      {/* {impactStories.length > 0 ? impactStories.map((story) => (
-        <Box key={story._id} p={3} shadow="sm" borderWidth="1px" borderRadius="md">
-          <Image src={story.image} alt={story.title} boxSize="100px" />
-          <Text fontWeight="bold">{story.title}</Text>
-          <Text>{story.description}</Text>
-          <HStack>
-            <Button colorScheme="blue" onClick={() => navigate(`/edit-impact-story/${story._id}`)}>Edit</Button>
-            <Button colorScheme="red" onClick={() => handleDeleteImpactStory(story._id)}>Delete</Button>
-          </HStack>
-        </Box>
-      )) : <Text>No impact stories posted yet.</Text>} */}
-    </VStack>
   );
 };
+      
+      
+
 
 export default DoneeDashboard;

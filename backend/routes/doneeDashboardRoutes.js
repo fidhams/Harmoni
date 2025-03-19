@@ -3,7 +3,7 @@ const router = express.Router();
 const Donee = require("../models/donee");
 const Event = require("../models/Event");
 const Needs = require("../models/Needs");
-const ImpactStory = require("../models/ImpactStory");
+const ImpactStory = require("../models/ImpactStory")
 const { protect } = require("../middleware/authMiddleware");
 const bcrypt = require("bcrypt");
 
@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
       cb(null, "uploads/"); // Store files in 'uploads' folder
     },
     filename: (req, file, cb) => {
-      cb(null, req.user.id + path.extname(file.originalname)); // Save with user ID
+      cb(null,`${Date.now()}-${file.originalname}`); // Save with user ID
     },
   });
   const upload = multer({ storage });
@@ -279,26 +279,81 @@ router.delete("/needs/:id", protect, async (req, res) => {
 
 
 /////////////////////////////////////////////////IMPACT STORIES///////////////////////////////////////////
-// Add Impact Story
-router.post("/impact-stories", protect, async (req, res) => {
+// ✅ Add Impact Story
+router.post("/story", protect, upload.single("image"), async (req, res) => {
   try {
-    const impactStory = new ImpactStory({ ...req.body, createdBy: req.user.id });
-    await impactStory.save();
-    await Donee.findByIdAndUpdate(req.user.id, { $push: { ImpactStory: impactStory._id } });
-    res.status(201).json(impactStory);
+    const { title, description } = req.body;
+    const doneeId = req.user.id; // Assuming you get donee ID from authentication middleware
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Image is required" });
+    }
+
+    const newStory = new ImpactStory({
+      doneeId,
+      title,
+      description,
+      image: req.file.filename, // Stores filename
+    });
+
+    const savedStory = await newStory.save();
+
+    // Push story to Donee schema
+    await Donee.findByIdAndUpdate(doneeId, { $push: { ImpactStory: savedStory._id } });
+
+    res.status(201).json(savedStory);
   } catch (error) {
-    res.status(500).json({ message: "Error creating impact story" });
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
-// Delete Impact Story
-router.delete("/impact-stories/:id", protect, async (req, res) => {
+// ✅ Edit Impact Story
+router.put("/story/:id", protect, upload.single("image"), async (req, res) => {
   try {
-    await ImpactStory.findByIdAndDelete(req.params.id);
-    await Donee.findByIdAndUpdate(req.user.id, { $pull: { ImpactStory: req.params.id } });
-    res.json({ message: "Impact story deleted" });
+    const { title, description } = req.body;
+    let updateData = { title, description };
+
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
+    const updatedStory = await ImpactStory.findByIdAndUpdate(req.params.id, updateData, { new: true });
+
+    if (!updatedStory) {
+      return res.status(404).json({ message: "Impact Story not found" });
+    }
+
+    res.status(200).json(updatedStory);
   } catch (error) {
-    res.status(500).json({ message: "Error deleting impact story" });
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// ✅ Delete Impact Story
+router.delete("/story/:id", protect, async (req, res) => {
+  try {
+    const impactStory = await ImpactStory.findByIdAndDelete(req.params.id);
+
+    if (!impactStory) {
+      return res.status(404).json({ message: "Impact Story not found" });
+    }
+
+    // Remove story reference from Donee schema
+    await Donee.findByIdAndUpdate(impactStory.doneeId, { $pull: { ImpactStory: impactStory._id } });
+
+    res.status(200).json({ message: "Impact Story deleted" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+// ✅ Get Impact Stories for a Donee
+router.get("/story/:doneeId", protect, async (req, res) => {
+  try {
+    const stories = await ImpactStory.find({ doneeId: req.params.doneeId });
+    res.status(200).json(stories);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 });
 
