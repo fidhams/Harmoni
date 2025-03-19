@@ -17,13 +17,19 @@ const ImpactStoryForm = ({ isEditing }) => {
     if (isEditing && storyId) {
       const fetchStory = async () => {
         try {
-          const res = await fetch(`http://localhost:5000/api/donee/story/${storyId}`, {
+          const res = await fetch(`http://localhost:5000/api/donee/storybyid/${storyId}`, {
             headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
           });
           if (!res.ok) throw new Error("Failed to fetch story");
           const data = await res.json();
-          setStoryData(data);
-          setImagePreview(data.image);
+          console.log("impactstory",data);
+          setStoryData({
+            title: data.title || "",
+            description: data.description || "",
+            image: data.image || "",
+          });
+  
+          setImagePreview(`http://localhost:5000/uploads/${data.image}` || null);
         } catch (error) {
           console.error("Error fetching story:", error);
         }

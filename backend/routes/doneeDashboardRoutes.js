@@ -347,6 +347,16 @@ router.delete("/story/:id", protect, async (req, res) => {
   }
 });
 
+//get story by id
+router.get("/storybyid/:id", protect, async (req, res) => {
+  try{
+    const story = await ImpactStory.findById(req.params.id);
+    res.status(200).json(story);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+})
+
 // ✅ Get Impact Stories for a Donee
 router.get("/story/:doneeId", protect, async (req, res) => {
   try {

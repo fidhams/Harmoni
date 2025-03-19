@@ -23,7 +23,7 @@ const ImpactStories = () => {
             <div className="stories-grid">
                 {stories.map((story) => (
                     <div key={story._id} className="story-card">
-                        <img src={story.image} alt={story.title} className="story-image" />
+                        <img src={`http://localhost:5000/uploads/${story.image}`} alt={story.title} className="story-image" />
                         <h2>{story.title}</h2>
                         <p>{story.description}</p>
                     </div>
