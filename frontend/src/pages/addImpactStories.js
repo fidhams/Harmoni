@@ -1,41 +1,99 @@
-import React, { useState } from "react";
-import { Box, Button, Input, Textarea, VStack } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { VStack, Input, Textarea, Button, Box, Text, Image } from "@chakra-ui/react";
 
-const AddImpactStory = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+const ImpactStoryForm = ({ isEditing }) => {
+  const { storyId } = useParams();
   const navigate = useNavigate();
+  const [storyData, setStoryData] = useState({
+    title: "",
+    description: "",
+    image: ""
+  });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
-  const handleSubmit = async () => {
+  useEffect(() => {
+    if (isEditing && storyId) {
+      const fetchStory = async () => {
+        try {
+          const res = await fetch(`http://localhost:5000/api/donee/story/${storyId}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          });
+          if (!res.ok) throw new Error("Failed to fetch story");
+          const data = await res.json();
+          setStoryData(data);
+          setImagePreview(data.image);
+        } catch (error) {
+          console.error("Error fetching story:", error);
+        }
+      };
+      fetchStory();
+    }
+  }, [isEditing, storyId]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setStoryData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const res = await fetch("http://localhost:5000/api/impact-stories", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ title, description, image }),
+      const formData = new FormData();
+      formData.append("title", storyData.title);
+      formData.append("description", storyData.description);
+      if (imageFile) formData.append("image", imageFile);
+
+      const method = isEditing ? "PUT" : "POST";
+      const url = isEditing 
+        ? `http://localhost:5000/api/donee/story/${storyId}` 
+        : "http://localhost:5000/api/donee/story";
+
+      const res = await fetch(url, {
+        method,
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        body: formData,
       });
 
-      if (!res.ok) throw new Error("Failed to upload impact story");
-
-      navigate("/donee-dashboard");
+      if (!res.ok) throw new Error("Failed to save impact story");
+      alert(isEditing ? "Impact Story updated successfully!" : "Impact Story added successfully!");
+      navigate("/doneedashboard");
     } catch (error) {
-      console.error(error);
+      console.error("Error saving story:", error);
+      alert("Error saving story. Please try again.");
     }
   };
 
   return (
-    <VStack spacing={5} p={5}>
-      <Text fontSize="2xl" fontWeight="bold">Add Impact Story</Text>
-      <Input placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} />
-      <Textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
-      <Input placeholder="Image URL" value={image} onChange={(e) => setImage(e.target.value)} />
-      <Button colorScheme="green" onClick={handleSubmit}>Submit</Button>
+    <VStack spacing={5} p={5} align="start">
+      <Box>
+        <Text fontWeight="bold" color="black">Title</Text>
+        <Input name="title" value={storyData.title} onChange={handleChange} color="black" border="1px solid black" />
+      </Box>
+
+      <Box>
+        <Text fontWeight="bold" color="black">Description</Text>
+        <Textarea name="description" value={storyData.description} onChange={handleChange} color="black" border="1px solid black" />
+      </Box>
+
+      <Box>
+        <Text fontWeight="bold" color="black">Upload Image</Text>
+        <Input type="file" onChange={handleImageChange} color="black" border="1px solid black" />
+        {imagePreview && <Image src={imagePreview} alt="Uploaded" boxSize="200px" mt={2} borderRadius="md" />}
+      </Box>
+
+      <Button colorScheme="blue" onClick={handleSubmit}>{isEditing ? "Update Story" : "Add Story"}</Button>
+      <Button colorScheme="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>
     </VStack>
   );
 };
 
-export default AddImpactStory;
+export const AddImpactStory = () => <ImpactStoryForm isEditing={false} />;
+export const EditImpactStory = () => <ImpactStoryForm isEditing={true} />;
