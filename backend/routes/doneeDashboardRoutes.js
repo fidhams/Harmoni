@@ -3,6 +3,7 @@ const router = express.Router();
 const Donee = require("../models/donee");
 const Event = require("../models/Event");
 const Needs = require("../models/Needs");
+const Donation = require("../models/Donation");
 const ImpactStory = require("../models/ImpactStory")
 const { protect } = require("../middleware/authMiddleware");
 const bcrypt = require("bcrypt");
@@ -364,6 +365,59 @@ router.get("/story/:doneeId", protect, async (req, res) => {
     res.status(200).json(stories);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+
+// Fetch donations: Show pending ones or those assigned to the logged-in donee
+router.get("/donations", protect, async (req, res) => {
+  try {
+      const doneeId = req.user.id;
+
+      // Get pending donations OR donations assigned to this donee
+      const donations = await Donation.find({
+          $or: [
+              { status: "pending" }, 
+              { status: { $ne: "pending" }, organization: doneeId }
+          ]
+      }).populate("donor", "name").populate("organization", "name");
+
+      res.json(donations);
+  } catch (error) {
+      console.error("Error fetching donations:", error);
+      res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Update donation status
+router.put("/donation/:id", protect, async (req, res) => {
+  try {
+      const { status } = req.body;
+      const doneeId = req.user.id;
+      const donation = await Donation.findById(req.params.id);
+
+      if (!donation) return res.status(404).json({ error: "Donation not found" });
+
+      // Handle status updates with donee assignment logic
+      if (status === "accepted" && donation.status === "pending") {
+          donation.status = "accepted";
+          donation.organization = doneeId; // Assign the donee
+      } else if (status === "pending" && donation.status === "accepted") {
+          donation.status = "pending";
+          donation.organization = null; // Remove the donee
+      } else if (status === "completed" && donation.status === "accepted") {
+          donation.status = "completed";
+      } else if (status === "accepted" && donation.status === "completed") {
+          donation.status = "accepted"; // Mark incomplete
+      } else {
+          return res.status(400).json({ error: "Invalid status transition" });
+      }
+
+      await donation.save();
+      res.json({ message: "Donation status updated", donation });
+  } catch (error) {
+      console.error("Error updating donation status:", error);
+      res.status(500).json({ error: "Server error" });
   }
 });
 

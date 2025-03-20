@@ -27,6 +27,7 @@ import AddEvent from "./pages/AddEvent";
 import EditEvent from "./pages/EditEvent";
 import { AddNeed, EditNeed } from "./pages/AddNeed";
 import { AddImpactStory, EditImpactStory } from "./pages/AddImpactStories";
+import CheckDonations from "./pages/CheckDonations";
 
 
 import Volunteer from "./pages/Volunteer";
@@ -78,6 +79,7 @@ function App() {
           <Route path="/edit-need/:needId" element={<EditNeed />} />
           <Route path="/add-impact-story" element={<AddImpactStory />} />
           <Route path="/edit-impact-story/:storyId" element={<EditImpactStory />} />
+          <Route path="/check-donations" element={<CheckDonations />} />
 
 
           {/* Other Pages */}

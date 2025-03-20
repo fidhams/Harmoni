@@ -134,8 +134,10 @@ const DoneeDashboard = () => {
 
 
       <Text fontSize="xl" fontWeight="bold">Posted Needs</Text>
-      <Button colorScheme="green" onClick={() => navigate("/add-need")}>Add Need</Button>
-      {needs.length > 0 ? needs.map((need) => (
+      <HStack>
+        <Button colorScheme="green" onClick={() => navigate("/add-need")}>Post Needs</Button>
+        <Button colorScheme="blue" onClick={() => navigate("/check-donations")}>Check Donations</Button>
+      </HStack>      {needs.length > 0 ? needs.map((need) => (
         <Box key={need._id} p={5} shadow="sm" borderWidth="1px" borderRadius="md">
           <Badge bg={need.fulfilled ? "green.400" : "red.400"} color="white" >
               {need.fulfilled ? "Completed" : "Pending"}
