@@ -26,4 +26,4 @@ doneeSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = mongoose.model("Donee", doneeSchema);
+module.exports = mongoose.model("donee", doneeSchema);

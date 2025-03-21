@@ -76,7 +76,7 @@ const DoneeDashboard = () => {
   return (
     <VStack spacing={5} p={5} align="center">
       <Text fontSize="2xl" fontWeight="bold">Donee Dashboard</Text>
-      {profile && (
+      {profile ? (
   <HStack spacing={3} p={3} shadow="md" borderWidth="1px" borderRadius="md" width="100%">
     {profile.profileImage && (
       <Image
@@ -102,7 +102,7 @@ const DoneeDashboard = () => {
         </Button>
       </VStack>
     </HStack>
-  )}
+  ) : <Text>Session Expired. Try Logging Again</Text>}
 
 
 

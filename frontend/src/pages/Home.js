@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/home.css"; // Ensure the correct path for styles
+// import ChatBot from "./ChatBot"; // Import the chatbot component
+
 
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -49,6 +51,7 @@ const Home = () => {
           <p className="loading">Loading events...</p>
         )}
       </div>
+      {/* <ChatBot /> */}
 
       {/* About Section */}
       {/* <section className="about-section">

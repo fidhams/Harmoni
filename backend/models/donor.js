@@ -21,4 +21,4 @@ donorSchema.pre("save", async function (next) {
     next();
   });
 
-module.exports = mongoose.model("Donor", donorSchema);
+module.exports = mongoose.model("donor", donorSchema);
