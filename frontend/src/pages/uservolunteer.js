@@ -1,71 +1,97 @@
-import React, { useState } from "react";
-// import "../styles/uservolunteer.css";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; 
+import { Box, Text, Button, VStack } from "@chakra-ui/react";
 
-const UserVolunteerForm = () => {
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
+const VolunteerEventsPage = () => {
+  const [events, setEvents] = useState([]);
+  const [user, setUser] = useState(null); // Store logged-in user
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/uservolunteer", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ category, description }),
-    });
-    if (response.ok) {
-      navigate("/dashboard");
-    } else {
-      console.error("Failed to submit volunteer data");
+  useEffect(() => {
+    fetchEvents();
+    checkUserLogin();
+  }, []);
+
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/v/volunteer-events");
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        setEvents(data);
+      } else {
+        console.error("Invalid data format:", data);
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  const checkUserLogin = () => {
+    const token = localStorage.getItem("token"); // Check for token
+    if (token) {
+      try {
+        const decoded = JSON.parse(atob(token.split(".")[1])); // Decode token payload
+        setUser(decoded); // Set user state
+      } catch (error) {
+        console.error("Error decoding token:", error);
+        localStorage.removeItem("token"); // Remove invalid token
+      }
+    }
+  };
+  
+
+  const applyForEvent = async (eventId) => {
+    if (!user) {
+      navigate("/donorlogin"); // Redirect to login if user is not logged in
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:5000/api/v/apply/${eventId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ donorId: user._id }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setEvents(events.map(event => 
+          event._id === eventId ? { ...event, volunteers: [...event.volunteers, user._id] } : event
+        ));
+      }
+    } catch (error) {
+      console.error("Error applying for event:", error);
     }
   };
 
   return (
-    <div className="main-container">
-      <div className="form">
-        <form onSubmit={handleSubmit}>
-          <div className="input">
-            <label htmlFor="Category" className="name">Category</label>
-            <select
-              id="Category"
-              name="category"
-              className="dropdown-select"
-              required
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="" disabled selected>Category</option>
-              <option value="Companionship and Support">Companionship and Support</option>
-              <option value="Mentoring and Tutoring">Mentoring and Tutoring</option>
-              <option value="Activities or Event Management">Activities or Event Management</option>
-              <option value="Health and Wellness Support">Health and Wellness Support</option>
-              <option value="Advocacy and Outreach">Advocacy and Outreach</option>
-              <option value="Special Projects">Special Projects</option>
-              <option value="Others">Others</option>
-            </select>
-          </div>
-          <div className="input-1">
-            <span className="description">Description</span>
-            <textarea
-              className="label-2"
-              id="description"
-              name="description"
-              placeholder="Enter your question or message"
-              required
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
-          </div>
-          <button type="submit" className="button">
-            <span className="add">Add</span>
-          </button>
-        </form>
-      </div>
-    </div>
+    <VStack spacing={5} p={5} align="start" w="100%">
+      <Text fontSize="2xl" fontWeight="bold" color="black">Volunteer Events</Text>
+      {events.length === 0 ? (
+        <Text>No upcoming events requiring volunteers.</Text>
+      ) : (
+        events.map((event, index) => (
+          <Box key={event._id} w="100%">
+            <Box p={4} border="1px solid black" borderRadius="md">
+              <Text fontSize="lg" fontWeight="bold">{event.name}</Text>
+              <Text whiteSpace="pre-wrap">{event.description}</Text>
+              <Text><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</Text>
+              <Text><strong>Venue:</strong> {event.venue}</Text>
+              <Text><strong>Contact:</strong> {event.donee?.phone || "N/A"}</Text>
+              {user && event.volunteers.includes(user._id) ? (
+                <Button colorScheme="green" isDisabled>Applied</Button>
+              ) : (
+                <Button colorScheme="blue" onClick={() => applyForEvent(event._id)}>Apply</Button>
+              )}
+            </Box>
+
+            {/* Custom Divider Replacement */}
+            {index < events.length - 1 && <Box w="100%" h="2px" bg="gray.300" my={5} />}
+          </Box>
+        ))
+      )}
+    </VStack>
   );
 };
 
-export default UserVolunteerForm;
+export default VolunteerEventsPage;

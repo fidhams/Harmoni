@@ -16,6 +16,7 @@ const donorDashboardRoutes = require('./routes/donorDashboardRoutes'); //
 const doneeDashboardRoutes = require('./routes/doneeDashboardRoutes');
 
 const donationPageRoutes = require('./routes/DonationPageRoutes');
+const volunteerPageRoutes = require('./routes/VolunteerPageRoutes');
 
 // const FAQ = require("./models/FAQ");
 
@@ -41,6 +42,7 @@ app.use("/api/chat", chatRoutes);
 app.use('/api/impact-stories', impactRoutes);
 app.use("/api/volunteers", volunteerRoutes);
 app.use("/api/d", donationPageRoutes);
+app.use("/api/v", volunteerPageRoutes);
 
 // Default route set to Home
 app.use('/', homeRoutes);

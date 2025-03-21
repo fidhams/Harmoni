@@ -37,7 +37,7 @@ import NotFound from "./pages/NotFound";
 import ItemsRequest from "./pages/itemsreq";
 
 import UserDonateForm from "./pages/userdonate";
-import UserVolunteerForm from "./pages/uservolunteer";
+import VolunteerEventsPage from "./pages/uservolunteer";
 import VolunteerRequestForm from "./pages/volunteerreq";
 
 import AdminLogin from "./pages/AdminLogin";
@@ -52,6 +52,10 @@ function App() {
         <Navbar /> {/* Navbar placed before Routes */}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/donations" element={<Donations />} />
+          <Route path="/volunteer" element={<VolunteerEventsPage />} />
+
+
 
           {/* Admin Routes */}
           <Route path="/adminlogin" element={<AdminLogin />} />
@@ -83,7 +87,6 @@ function App() {
 
 
           {/* Other Pages */}
-          <Route path="/donations" element={<Donations />} />
           <Route path="/volunteering" element={<Volunteer />} />
           <Route path="/impact-stories" element={<ImpactStories />} />
           <Route path="/contact" element={<Contactus />} />
@@ -91,7 +94,6 @@ function App() {
           {/* Donation and Volunteering */}
           <Route path="/itemreq" element={<ItemsRequest />} />
           <Route path="/donate" element={<UserDonateForm />} />
-          <Route path="/volunteer" element={<UserVolunteerForm />} />
           <Route path="/vreq" element={<VolunteerRequestForm />} />
 
           {/* 404 Not Found */}

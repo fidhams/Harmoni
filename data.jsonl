@@ -1,0 +1,163 @@
+{"instruction": "How do I donate items?", "input": "", "output": "Go to the 'Donate' page, select the items, and submit the form."}
+{"instruction": "Tell me about Helping Hands NGO", "input": "", "output": "Helping Hands is an NGO that supports orphanages and helps children in need."}
+{"instruction": "How do I volunteer for events?", "input": "", "output": "Check the 'Volunteer' page for upcoming events and click 'Apply' to register."}
+{"instruction": "How do I register as a donor?", "input": "", "output": "Go to the 'Sign Up' page, select 'Donor', and complete the registration form."}
+{"instruction": "How do I register as a donee?", "input": "", "output": "On the 'Sign Up' page, select 'Donee' and fill in the required details."}
+{"instruction": "How can I donate money?", "input": "", "output": "Currently, Harmoni supports only item-based donations, not monetary donations."}
+{"instruction": "How do I donate food or clothes?", "input": "", "output": "Visit the 'Donate' page, list the items you want to donate, and submit your request."}
+{"instruction": "What is Harmoni?", "input": "", "output": "Harmoni is a donation and volunteering platform that connects donors, donees, and NGOs."}
+{"instruction": "Can I track my donations?", "input": "", "output": "Yes, visit your 'Donor Dashboard' to check the status of your donations."}
+{"instruction": "How can I volunteer for an event?", "input": "", "output": "Go to the 'Volunteer' page, browse events, and click 'Apply' to register."}
+{"instruction": "What happens after I submit a donation request?", "input": "", "output": "The donee or NGO will review your request, and you will be notified once it's accepted."}
+{"instruction": "How do I contact an NGO?", "input": "", "output": "You can use the 'Chat' feature or check the NGO’s profile for contact details."}
+{"instruction": "Is my data safe on Harmoni?", "input": "", "output": "Yes, we use secure authentication and encryption to protect user data."}
+{"instruction": "Can organizations create events?", "input": "", "output": "Yes, NGOs can post events through their organization dashboard."}
+{"instruction": "How do I edit my profile?", "input": "", "output": "Go to 'Edit Profile' in your dashboard to update your details."}
+{"instruction": "What kind of items can I donate?", "input": "", "output": "You can donate clothes, food, books, toys, and other essentials."}
+{"instruction": "How do I see pending donation requests?", "input": "", "output": "Go to 'Check Donations' under your dashboard to view pending donations."}
+{"instruction": "Can I donate anonymously?", "input": "", "output": "No, but your personal details are only shared with the recipient for coordination purposes."}
+{"instruction": "How do I check upcoming volunteering events?", "input": "", "output": "Visit the 'Volunteer' page to see a list of upcoming events."}
+{"instruction": "How can I contribute if I don’t have physical items to donate?", "input": "", "output": "You can volunteer for events or spread awareness about the platform."}
+{"instruction": "Do I get any rewards for volunteering?", "input": "", "output": "Yes! Volunteers earn badges and recognition for their contributions."}
+{"instruction": "What are badges in Harmoni?", "input": "", "output": "Badges are awarded to volunteers based on their participation and contributions."}
+{"instruction": "How do organizations verify donation requests?", "input": "", "output": "Organizations can review and approve donation requests from their dashboard."}
+{"instruction": "Can NGOs request specific donations?", "input": "", "output": "Yes, NGOs can list their needs on the platform under the 'Needs' section."}
+{"instruction": "How do I know if my donation was received?", "input": "", "output": "Once the donee confirms receipt, you’ll be notified via your dashboard."}
+{"instruction": "Can I message a donee before donating?", "input": "", "output": "Yes, you can use the chat feature to communicate with donees before finalizing your donation."}
+{"instruction": "Can I change my role from donor to donee?", "input": "", "output": "No, you need to create a new account if you wish to switch roles."}
+{"instruction": "How do I submit an impact story?", "input": "", "output": "Use the 'Add Impact Story' option on your dashboard to share your experience."}
+{"instruction": "Can I volunteer remotely?", "input": "", "output": "Yes, some NGOs offer online volunteering opportunities like mentoring or content creation."}
+{"instruction": "What happens if an NGO rejects my donation?", "input": "", "output": "You’ll receive a notification, and you can choose to donate to a different NGO."}
+{"instruction": "How do I know if an NGO is trustworthy?", "input": "", "output": "All NGOs on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I see a history of my donations?", "input": "", "output": "Yes, visit the 'Donor Dashboard' to view your donation history."}
+{"instruction": "Can I sign up using my Google account?", "input": "", "output": "Currently, Harmoni only supports email-based registration."}
+{"instruction": "Does Harmoni charge any fees for donations?", "input": "", "output": "No, Harmoni is completely free to use for both donors and donees."}
+{"instruction": "Can I donate directly to a specific orphanage?", "input": "", "output": "Yes, you can choose an NGO from the list and donate directly to them."}
+{"instruction": "Can organizations track their volunteer performance?", "input": "", "output": "Yes, NGOs have access to volunteer statistics and activity logs."}
+{"instruction": "What should I do if I forgot my password?", "input": "", "output": "Click on 'Forgot Password' on the login page and follow the reset instructions."}
+{"instruction": "Is there a mobile app for Harmoni?", "input": "", "output": "Currently, Harmoni is only available as a web application."}
+{"instruction": "How do I update my contact details?", "input": "", "output": "Go to 'Edit Profile' in your dashboard and update your contact information."}
+{"instruction": "What types of organizations can join Harmoni?", "input": "", "output": "Nonprofits, orphanages, old-age homes, and NGOs focused on social welfare can register."}
+{"instruction": "How do I delete my account?", "input": "", "output": "Go to 'Settings' and select 'Delete Account'. This action is irreversible."}
+{"instruction": "What is Harmoni?", "input": "", "output": "Harmoni is a donation and volunteering platform connecting donors with NGOs, orphanages, and old age homes."}
+{"instruction": "How do I create an account?", "input": "", "output": "Click on 'Sign Up', choose 'Donor' or 'Organization', and complete the registration form."}
+{"instruction": "How do I log in?", "input": "", "output": "Go to the 'Login' page, enter your email and password, and click 'Sign In'."}
+{"instruction": "What can I do on Harmoni?", "input": "", "output": "You can donate items, volunteer for events, connect with NGOs, and share impact stories."}
+{"instruction": "Is Harmoni free to use?", "input": "", "output": "Yes, Harmoni is completely free for donors and organizations."}
+{"instruction": "How do I donate items?", "input": "", "output": "Go to the 'Donate' page, select the items you want to donate, and submit the form."}
+{"instruction": "Who can receive donations?", "input": "", "output": "Registered NGOs, orphanages, and old age homes can receive donations."}
+{"instruction": "Can I choose which organization receives my donation?", "input": "", "output": "Yes, you can select a specific organization while making a donation."}
+{"instruction": "How do I volunteer?", "input": "", "output": "Go to the 'Volunteer' page, browse events, and click 'Apply' to register."}
+{"instruction": "What types of events can I volunteer for?", "input": "", "output": "You can volunteer for charity events, educational programs, and community support activities."}
+{"instruction": "Can I edit my profile after signing up?", "input": "", "output": "Yes, go to 'Edit Profile' in your dashboard to update your details."}
+{"instruction": "How do I contact support?", "input": "", "output": "Visit the 'Contact Us' page and submit your query."}
+{"instruction": "Is my personal information safe?", "input": "", "output": "Yes, Harmoni ensures data privacy and secure authentication."}
+{"instruction": "What happens after I submit a donation?", "input": "", "output": "The organization will review your donation request and accept it if needed."}
+{"instruction": "How do I see my past donations?", "input": "", "output": "Check the 'Donor Dashboard' to view your donation history."}
+{"instruction": "How do I share my experience?", "input": "", "output": "Use the 'Impact Stories' section to share your experience with the community."}
+{"instruction": "Can I register as both a donor and an organization?", "input": "", "output": "No, you need separate accounts for each role."}
+{"instruction": "How do I find organizations near me?", "input": "", "output": "Use the 'Map' feature to locate NGOs and orphanages in your area."}
+{"instruction": "Does Harmoni have a mobile app?", "input": "", "output": "No, currently Harmoni is only available as a web application."}
+{"instruction": "Can organizations register on Harmoni?", "input": "", "output": "Yes, NGOs, orphanages, and old age homes can register as organizations."}
+{"instruction": "How do organizations request donations?", "input": "", "output": "Organizations can list their needs on the platform, and donors can choose to fulfill them."}
+{"instruction": "Is there a limit to how many items I can donate?", "input": "", "output": "No, you can donate as many items as you want."}
+{"instruction": "Can I donate money instead of items?", "input": "", "output": "Currently, Harmoni only supports item-based donations."}
+{"instruction": "How do I know if my donation was received?", "input": "", "output": "You will receive a confirmation message once the organization receives your donation."}
+{"instruction": "Can I volunteer for multiple events?", "input": "", "output": "Yes, you can volunteer for as many events as you like."}
+{"instruction": "How do I track my volunteer hours?", "input": "", "output": "Your volunteer hours are automatically tracked on your dashboard."}
+{"instruction": "Can I donate to specific individuals?", "input": "", "output": "No, donations are made to registered organizations and NGOs."}
+{"instruction": "How do I know if an organization is legitimate?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in bulk?", "input": "", "output": "Yes, you can donate items in bulk quantities."}
+{"instruction": "How do I know what items are needed?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event needs volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable items?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization needs volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from outside the country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization needs specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate   items to a specific organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is reputable?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in large quantities?", "input": "", "output": "Yes, you can donate items in large quantities."}
+{"instruction": "How do I know what items an organization needs?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event requires volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable goods?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization is in need of volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from another country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization requires specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate items to a particular organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is trustworthy?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in bulk quantities?", "input": "", "output": "Yes, you can donate items in bulk quantities."}
+{"instruction": "How do I know what items an organization is looking for?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently-used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event is in need of volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable items?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization is seeking volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from a different country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization needs specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate items to a specific organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is reliable?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in large quantities?", "input": "", "output": "Yes, you can donate items in large quantities."}
+{"instruction": "How do I know what items an organization needs?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event needs volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable goods?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization is in need of volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from another country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization requires specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate items to a particular organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is trustworthy?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in bulk quantities?", "input": "", "output": "Yes, you can donate items in bulk quantities."}
+{"instruction": "How do I know what items an organization is looking for?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently-used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event is in need of volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable items?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization is seeking volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from a different country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization needs specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate items to a specific organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is reliable?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in large quantities?", "input": "", "output": "Yes, you can donate items in large quantities."}
+{"instruction": "How do I know what items an organization needs?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event needs volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable goods?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization is in need of volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from another country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization requires specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate items to a particular organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is trustworthy?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in bulk quantities?", "input": "", "output": "Yes, you can donate items in bulk quantities."}
+{"instruction": "How do I know what items an organization is looking for?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently-used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event is in need of volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable items?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization is seeking volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from a different country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization needs specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate items to a specific organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is reliable?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in large quantities?", "input": "", "output": "Yes, you can donate items in large quantities."}
+{"instruction": "How do I know what items an organization needs?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event needs volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable goods?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization is in need of volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from another country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization requires specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate items to a particular organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is trustworthy?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in bulk quantities?", "input": "", "output": "Yes, you can donate items in bulk quantities."}
+{"instruction": "How do I know what items an organization is looking for?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently-used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event is in need of volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
+{"instruction": "Can I donate perishable items?", "input": "", "output": "It depends on the organization's policy, so check with them before donating perishable items."}
+{"instruction": "How do I know if an organization is seeking volunteers?", "input": "", "output": "Organizations post volunteer opportunities on the platform, so check the 'Volunteer' page for openings."}
+{"instruction": "Can I donate items from a different country?", "input": "", "output": "Yes, you can donate items from anywhere in the world."}
+{"instruction": "How do I know if an organization needs specific items?", "input": "", "output": "Check the 'Needs' section on the platform to see the specific items requested by organizations."}
+{"instruction": "Can I donate items to a specific organization?", "input": "", "output": "Yes, you can choose a specific organization while making a donation."}
+{"instruction": "How do I know if an organization is reliable?", "input": "", "output": "All organizations on Harmoni go through a verification process before being listed."}
+{"instruction": "Can I donate items in large quantities?", "input": "", "output": "Yes, you can donate items in large quantities."}
+{"instruction": "How do I know what items an organization needs?", "input": "", "output": "Check the 'Needs' section on the platform to see the items requested by organizations."}
+{"instruction": "Can I donate gently used items?", "input": "", "output": "Yes, you can donate new or gently used items."}
+{"instruction": "How do I know if an event needs volunteers?", "input": "", "output": "Check the 'Volunteer' page for upcoming events that require volunteers."}
