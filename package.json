@@ -5,6 +5,8 @@
   "dependencies": {
     "@chakra-ui/react": "^3.12.0",
     "@emotion/react": "^11.14.0",
+    "@googlemaps/js-api-loader": "^1.16.8",
+    "@react-google-maps/api": "^2.20.6",
     "axios": "^1.8.4",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

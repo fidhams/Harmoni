@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/home.css"; // Ensure the correct path for styles
-// import ChatBot from "./ChatBot"; // Import the chatbot component
+import ChatBot from "./ChatBot"; // Import the chatbot component
 
 
 const Home = () => {
@@ -51,23 +51,23 @@ const Home = () => {
           <p className="loading">Loading events...</p>
         )}
       </div>
-      {/* <ChatBot /> */}
 
       {/* About Section */}
       {/* <section className="about-section">
         <div className="about-content">
-          <h2 className="holding-hands">Holding Hands</h2>
-          <p>
-            Our platform connects donors with orphanages, old age homes, and similar organizations.
-            We're committed to transparency and efficiency, ensuring every donation, big or small,
-            makes a meaningful impact. Join us in fostering a culture of compassion and support,
-            where no one is left behind. Together, let's transform lives, one donation at a time.
-          </p>
+        <h2 className="holding-hands">Holding Hands</h2>
+        <p>
+        Our platform connects donors with orphanages, old age homes, and similar organizations.
+        We're committed to transparency and efficiency, ensuring every donation, big or small,
+        makes a meaningful impact. Join us in fostering a culture of compassion and support,
+        where no one is left behind. Together, let's transform lives, one donation at a time.
+        </p>
         </div>
         <img src="/foott.jpeg" alt="Holding Hands" />
-      </section> */}
+        </section> */}
 
       
+    <ChatBot />
     </div>
   );
 };

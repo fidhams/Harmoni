@@ -56,9 +56,11 @@ const donorlogin = async (req, res) => {
   }
 };
 
+
+
 const doneesignup = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address, latitude, longitude } = req.body;
 
     if (!name || !email || !password || !phone) {
       return res.status(400).json({ error: "All required fields must be filled." });
@@ -69,14 +71,30 @@ const doneesignup = async (req, res) => {
       return res.status(409).json({ error: "Email already exists" });
     }
 
-    const newDonee = new Donee({ name, email, password, phone, address });
+    // Set location only if latitude and longitude are provided
+    const location = (latitude && longitude) ? {
+      type: "Point",
+      coordinates: [parseFloat(longitude), parseFloat(latitude)],
+    } : null;
+
+    const newDonee = new Donee({
+      name,
+      email,
+      password,
+      phone,
+      address,
+      location, // This will be null if no coordinates are provided
+    });
+
     await newDonee.save();
 
     res.status(201).json({ message: "Application Submitted. Wait for Approval.", donee: newDonee });
   } catch (error) {
+    console.error("Signup Error:", error);
     res.status(500).json({ error: "Internal Server Error", details: error.message });
   }
 };
+
 
 const doneelogin = async (req, res) => {
   try {

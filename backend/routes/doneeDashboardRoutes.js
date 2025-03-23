@@ -67,10 +67,23 @@ router.put("/profile", protect, upload.single("profileImage"), async (req, res) 
     // Update Location
     if (req.body.latitude && req.body.longitude) {
       donee.location = {
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
+        type: "Point",
+        coordinates: [req.body.longitude, req.body.latitude], // GeoJSON format
       };
     }
+
+    if (req.body.latitude && req.body.longitude) {
+      const lat = parseFloat(req.body.latitude);
+      const lng = parseFloat(req.body.longitude);
+      if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+        return res.status(400).json({ message: "Invalid latitude or longitude" });
+      }
+      donee.location = {
+        type: "Point",
+        coordinates: [lng, lat],
+      };
+    }
+    
 
     // Update Password (if provided)
     if (req.body.password) {

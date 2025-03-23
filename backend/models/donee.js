@@ -8,8 +8,8 @@ const doneeSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   address: { type: String, required: false },
   location: {
-    latitude: { type: Number, required: false },
-    longitude: { type: Number, required: false },
+    type: { type: String, enum: ["Point"], default: "Point" },
+    coordinates: { type: [Number], default: undefined }, // [longitude, latitude]
   },
   verified: { type: Boolean, default: false },
   profileImage: { type: String }, // URL of profile image
@@ -25,5 +25,8 @@ doneeSchema.pre("save", async function (next) {
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
+
+// Add 2dsphere index for geospatial queries
+doneeSchema.index({ location: "2dsphere" });
 
 module.exports = mongoose.model("donee", doneeSchema);

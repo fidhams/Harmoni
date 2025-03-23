@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Box, Input, Button, Textarea, VStack, Text, Image } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Loader } from "@googlemaps/js-api-loader";
+
+const mapContainerStyle = {
+  width: "100%",
+  height: "300px",
+};
+
+const center = { lat: 20.5937, lng: 78.9629 }; // Default (India)
 
 const DoneeProfile = () => {
   const [profile, setProfile] = useState({
@@ -19,6 +27,7 @@ const DoneeProfile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const mapRef = useRef(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -27,8 +36,6 @@ const DoneeProfile = () => {
         const res = await axios.get("http://localhost:5000/api/donee/dashboard", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        console.log("Response Data:", res.data); // Debugging log
 
         if (res.status === 200 && res.data && res.data.profile) {
           setProfile({
@@ -42,8 +49,6 @@ const DoneeProfile = () => {
           if (res.data.profile.profileImage) {
             setImagePreview(`http://localhost:5000/uploads/${res.data.profile.profileImage}`);
           }
-        } else {
-          console.error("Unexpected response structure:", res);
         }
       } catch (error) {
         console.error("Error fetching profile:", error.response ? error.response.data : error.message);
@@ -51,6 +56,7 @@ const DoneeProfile = () => {
     };
 
     fetchProfile();
+    loadGoogleMaps();
   }, []);
 
   const handleChange = (e) => {
@@ -61,6 +67,60 @@ const DoneeProfile = () => {
     if (e.target.files.length > 0) {
       setProfile({ ...profile, profileImage: e.target.files[0] });
       setImagePreview(URL.createObjectURL(e.target.files[0]));
+    }
+  };
+
+  const loadGoogleMaps = async () => {
+    const loader = new Loader({
+      apiKey: "AIzaSyC3P0yKTLQS0_eQOj74g7N0co-daEwBKVY",
+      version: "weekly",
+      libraries: ["places"],
+    });
+
+    try {
+      const google = await loader.load();
+      if (mapRef.current) {
+        const map = new google.maps.Map(mapRef.current, {
+          center: profile.latitude && profile.longitude
+            ? { lat: parseFloat(profile.latitude), lng: parseFloat(profile.longitude) }
+            : center,
+          zoom: 12,
+        });
+
+        if (profile.latitude && profile.longitude) {
+          new google.maps.Marker({
+            position: { lat: parseFloat(profile.latitude), lng: parseFloat(profile.longitude) },
+            map,
+          });
+        }
+
+        google.maps.event.addListener(map, "click", (event) => {
+          setProfile({
+            ...profile,
+            latitude: event.latLng.lat(),
+            longitude: event.latLng.lng(),
+          });
+        });
+      }
+    } catch (error) {
+      console.error("Error loading Google Maps:", error);
+    }
+  };
+
+  const useMyLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setProfile({
+            ...profile,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+        },
+        (error) => console.error("Error getting location", error)
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
     }
   };
 
@@ -80,12 +140,9 @@ const DoneeProfile = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      console.log("Update Profile Response:", res); // Debugging log
-
       if (res.status === 200) {
         navigate("/doneedashboard");
       } else {
-        console.error("Unexpected update response:", res);
         setError("Failed to update profile.");
       }
     } catch (error) {
@@ -103,7 +160,7 @@ const DoneeProfile = () => {
       
       <VStack spacing={3} as="form" onSubmit={handleSubmit}>
         {imagePreview ? (
-          <Image src={imagePreview} alt="Profile" boxSize="150px"  />
+          <Image src={imagePreview} alt="Profile" boxSize="150px" />
         ) : (
           <Text color="black">No image available</Text>
         )}
@@ -113,6 +170,12 @@ const DoneeProfile = () => {
         <Input type="text" placeholder="Phone" name="phone" value={profile.phone} onChange={handleChange} color="black" />
         <Input type="text" placeholder="Address" name="address" value={profile.address} onChange={handleChange} color="black" />
         <Textarea placeholder="Description" name="description" value={profile.description} onChange={handleChange} color="black" />
+
+        {/* Google Maps Integration */}
+        <div ref={mapRef} style={mapContainerStyle} />
+
+        <Button colorScheme="blue" onClick={useMyLocation}>Use My Location</Button>
+
         <Input type="text" placeholder="Latitude" name="latitude" value={profile.latitude} onChange={handleChange} color="black" />
         <Input type="text" placeholder="Longitude" name="longitude" value={profile.longitude} onChange={handleChange} color="black" />
         <Input type="password" placeholder="New Password (optional)" name="password" value={profile.password} onChange={handleChange} color="black" />

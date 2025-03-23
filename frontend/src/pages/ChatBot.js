@@ -1,61 +1,100 @@
-import { useState } from "react";
-import io from "socket.io-client";
-import '../styles/ChatBot.css';
+import React, { useState, useEffect, useRef } from "react";
+import "../styles/ChatBot.css";
 
-const socket = io("http://localhost:5000"); // Backend URL
-
-const ChatBot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
+const HarmoniChatBot = () => {
+  const [messages, setMessages] = useState([
+    {
+      text: "Hi! I'm your Harmoni assistant. How can I help you today?",
+      sender: "bot",
+    },
+  ]);
   const [input, setInput] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef(null);
 
-  const toggleChat = () => setIsOpen(!isOpen);
-
-  const sendMessage = () => {
-    if (input.trim()) {
-      const userMessage = { sender: "user", text: input };
-      setMessages([...messages, userMessage]);
-      socket.emit("userMessage", input); // Send message to backend
-      setInput("");
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
     }
+  }, [messages, isOpen]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  socket.on("botMessage", (message) => {
-    setMessages((prevMessages) => [...prevMessages, { sender: "bot", text: message }]);
-  });
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    setMessages((prev) => [...prev, { text: input, sender: "user" }]);
+    setInput("");
+    setIsLoading(true);
+
+    try {
+        const response = await fetch("http://localhost:5000/api/chatbot/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: input }),
+        });
+        const data = await response.json();
+
+        // Fix response handling
+        setMessages((prev) => [...prev, { text: data.response || "I didn't understand that.", sender: "bot" }]);
+    } catch (error) {
+        setMessages((prev) => [
+            ...prev,
+            { text: "Sorry, something went wrong. Try again.", sender: "bot" },
+        ]);
+    } finally {
+        setIsLoading(false);
+    }
+};
+
 
   return (
-    <div className="fixed bottom-4 right-4">
-      {!isOpen ? (
-        <button onClick={toggleChat} className="p-3 bg-blue-500 text-white rounded-full shadow-md">
-          💬
+    <div className="harmoni-chatbot-wrapper">
+      {!isOpen && (
+        <button onClick={() => setIsOpen(true)} className="chat-toggle-button">
+          <span className="chat-icon">💬</span> Chat
         </button>
-      ) : (
-        <div className="w-64 bg-white shadow-lg rounded-lg p-3">
-          <div className="flex justify-between items-center border-b pb-2">
-            <h3 className="text-lg font-semibold">Ask Me!</h3>
-            <button onClick={toggleChat} className="text-red-500">✖</button>
+      )}
+
+      {isOpen && (
+        <div className="harmoni-chatbot-container">
+          <div className="harmoni-chatbot-header">
+            <h3>Harmoni Assistant</h3>
+            <button onClick={() => setIsOpen(false)} className="close-button">✕</button>
           </div>
-          <div className="h-48 overflow-y-auto my-2 p-2 border rounded">
+
+          <div className="messages-container">
             {messages.map((msg, index) => (
-              <p key={index} className={msg.sender === "user" ? "text-right text-blue-600" : "text-left text-gray-800"}>
+              <div key={index} className={`message ${msg.sender}`}>
                 {msg.text}
-              </p>
+              </div>
             ))}
+
+            {isLoading && (
+              <div className="message bot typing-indicator">
+                <span></span><span></span><span></span>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
-          <div className="flex">
+
+          <form onSubmit={handleSubmit} className="input-container">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="flex-grow p-2 border rounded-l"
+              placeholder="Ask me anything..."
             />
-            <button onClick={sendMessage} className="bg-blue-500 text-white p-2 rounded-r">Send</button>
-          </div>
+            <button type="submit" disabled={isLoading}>➤</button>
+          </form>
         </div>
       )}
     </div>
   );
 };
 
-export default ChatBot;
+export default HarmoniChatBot;
