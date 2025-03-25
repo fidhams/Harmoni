@@ -33,7 +33,7 @@ const DonorDashboard = () => {
         }
       } catch (error) {
         console.error("Error fetching donor dashboard data:", error);
-        setError("Error loading data. Please refresh and try again.");
+        setError("Session Expired. Please login again.");
       } finally {
         setLoading(false);
       }

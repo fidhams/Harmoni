@@ -1,6 +1,7 @@
 const Donation = require('../models/Donation');
 const VolunteerRequest = require('../models/VolunteerRequest');
 const User = require('../models/donor');
+const Event = require('../models/Event');
 
 // Controller to fetch home page data
 const getHomePageData = async (req, res) => {
@@ -40,4 +41,15 @@ const getHomePageData = async (req, res) => {
     }
 };
 
-module.exports = { getHomePageData };
+const events = async (req, res) => {
+    try {
+      const events = await Event.find().sort({ date: 1 }); // Sort by date (ascending)
+      res.json({ success: true, events });
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+  }
+
+
+module.exports = { getHomePageData, events };

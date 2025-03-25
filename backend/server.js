@@ -18,7 +18,7 @@ const doneeDashboardRoutes = require('./routes/doneeDashboardRoutes');
 const donationPageRoutes = require('./routes/DonationPageRoutes');
 const volunteerPageRoutes = require('./routes/VolunteerPageRoutes');
 const contactRoutes = require('./routes/contactRoutes');
-// const chatbotRoutes= require('./routes/chatbotRoutes');
+const chatbotRoutes= require('./routes/chatbotRoutes');
 
 
 // const FAQ = require("./models/FAQ");
@@ -47,7 +47,7 @@ app.use("/api/volunteers", volunteerRoutes);
 app.use("/api/d", donationPageRoutes);
 app.use("/api/v", volunteerPageRoutes);
 app.use("/api/approved-donees", contactRoutes);
-// app.use("/api/chatbot", chatbotRoutes);
+app.use("/api/chatbot", chatbotRoutes);
 
 // Default route set to Home
 app.use('/', homeRoutes);

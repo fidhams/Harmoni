@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Box, Input, Button, Textarea, VStack, Heading, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Loader } from "@googlemaps/js-api-loader";
+
+const mapContainerStyle = {
+  width: "100%",
+  height: "300px",
+};
+
+const center = { lat: 20.5937, lng: 78.9629 }; // Default (India)
 
 const AddEvent = () => {
   const [formData, setFormData] = useState({
@@ -8,10 +16,54 @@ const AddEvent = () => {
     description: "",
     date: "",
     venue: "",
+    latitude: "",
+    longitude: "",
     volunteerRequest: false,
   });
 
   const navigate = useNavigate();
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    loadGoogleMaps();
+  }, []);
+
+  const loadGoogleMaps = async () => {
+    const loader = new Loader({
+      apiKey: "AIzaSyC3P0yKTLQS0_eQOj74g7N0co-daEwBKVY",
+      version: "weekly",
+      libraries: ["places"],
+    });
+
+    try {
+      const google = await loader.load();
+      if (mapRef.current) {
+        const map = new google.maps.Map(mapRef.current, {
+          center: formData.latitude && formData.longitude
+            ? { lat: parseFloat(formData.latitude), lng: parseFloat(formData.longitude) }
+            : center,
+          zoom: 12,
+        });
+
+        if (formData.latitude && formData.longitude) {
+          new google.maps.Marker({
+            position: { lat: parseFloat(formData.latitude), lng: parseFloat(formData.longitude) },
+            map,
+          });
+        }
+
+        google.maps.event.addListener(map, "click", (event) => {
+          setFormData({
+            ...formData,
+            latitude: event.latLng.lat(),
+            longitude: event.latLng.lng(),
+          });
+        });
+      }
+    } catch (error) {
+      console.error("Error loading Google Maps:", error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -51,8 +103,14 @@ const AddEvent = () => {
           <Textarea name="description" value={formData.description} onChange={handleChange} placeholder="Event Description" required color="black" />
           <Input type="date" name="date" value={formData.date} onChange={handleChange} required color="black" />
           <Input name="venue" value={formData.venue} onChange={handleChange} placeholder="Venue" required color="black" />
+          
+          {/* Google Maps Integration */}
+          <div ref={mapRef} style={mapContainerStyle} />
 
-          {/* Native Checkbox */}
+          <Input type="text" placeholder="Latitude" name="latitude" value={formData.latitude} onChange={handleChange} color="black" readOnly />
+          <Input type="text" placeholder="Longitude" name="longitude" value={formData.longitude} onChange={handleChange} color="black" readOnly />
+
+          {/* Checkbox for volunteer request */}
           <label>
             <input type="checkbox" name="volunteerRequest" checked={formData.volunteerRequest} onChange={handleChange} />
             <Text as="span" color="black" ml={2}>Require Volunteers?</Text>

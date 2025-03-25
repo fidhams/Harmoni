@@ -9,7 +9,8 @@ router.get("/volunteer-events", async (req, res) => {
         const events = await Event.find({ 
             volunteerRequest: true, 
             date: { $gte: today } 
-        }).populate("donee", "name phone");
+        }).populate("donee", "name phone")
+        .populate("volunteers", "_id name");
 
         res.json(events);
     } catch (error) {
@@ -17,7 +18,7 @@ router.get("/volunteer-events", async (req, res) => {
     }
 });
 
-router.post("/apply/:eventId", async (req, res) => {
+router.patch("/apply/:eventId", async (req, res) => {
     const { eventId } = req.params;
     const { donorId } = req.body;
 

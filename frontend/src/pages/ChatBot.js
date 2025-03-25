@@ -1,100 +1,96 @@
-import React, { useState, useEffect, useRef } from "react";
-import "../styles/ChatBot.css";
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import '../styles/ChatBot.css'; // We'll create this file next
 
-const HarmoniChatBot = () => {
+const ChatBot = () => {
   const [messages, setMessages] = useState([
-    {
-      text: "Hi! I'm your Harmoni assistant. How can I help you today?",
-      sender: "bot",
-    },
+    { text: "Hi! I'm Harmoni's assistant. How can I help you today?", sender: 'bot' }
   ]);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      scrollToBottom();
-    }
-  }, [messages, isOpen]);
-
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
-    setMessages((prev) => [...prev, { text: input, sender: "user" }]);
-    setInput("");
-    setIsLoading(true);
-
+  const handleSend = async () => {
+    if (input.trim() === '') return;
+    
+    // Add user message to chat
+    setMessages([...messages, { text: input, sender: 'user' }]);
+    setLoading(true);
+    
     try {
-        const response = await fetch("http://localhost:5000/api/chatbot/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: input }),
-        });
-        const data = await response.json();
-
-        // Fix response handling
-        setMessages((prev) => [...prev, { text: data.response || "I didn't understand that.", sender: "bot" }]);
+      const response = await axios.post('http://localhost:5000/api/chatbot/ask', { message: input });
+      
+      // Add bot's response to chat
+      setMessages(prev => [...prev, { text: response.data.reply, sender: 'bot' }]);
     } catch (error) {
-        setMessages((prev) => [
-            ...prev,
-            { text: "Sorry, something went wrong. Try again.", sender: "bot" },
-        ]);
+      console.error('Error sending message:', error);
+      console.error('Error details:', error.response?.data || 'No detailed error information');
+      
+      setMessages(prev => [...prev, { 
+        text: 'Sorry, I encountered an error. Please try again later.', 
+        sender: 'bot' 
+      }]);
     } finally {
-        setIsLoading(false);
+      setLoading(false);
+      setInput('');
     }
-};
+  };
 
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <div className="harmoni-chatbot-wrapper">
-      {!isOpen && (
-        <button onClick={() => setIsOpen(true)} className="chat-toggle-button">
-          <span className="chat-icon">💬</span> Chat
-        </button>
-      )}
-
-      {isOpen && (
-        <div className="harmoni-chatbot-container">
-          <div className="harmoni-chatbot-header">
+    <div className={`chat-widget ${isOpen ? 'open' : ''}`}>
+      {isOpen ? (
+        <>
+          <div className="chat-header">
             <h3>Harmoni Assistant</h3>
-            <button onClick={() => setIsOpen(false)} className="close-button">✕</button>
+            <button className="close-button" onClick={toggleChat}>×</button>
           </div>
-
-          <div className="messages-container">
-            {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender}`}>
-                {msg.text}
+          <div className="chat-messages">
+            {messages.map((message, index) => (
+              <div key={index} className={`message ${message.sender}`}>
+                <div className="message-content">{message.text}</div>
               </div>
             ))}
-
-            {isLoading && (
-              <div className="message bot typing-indicator">
-                <span></span><span></span><span></span>
-              </div>
-            )}
+            {loading && <div className="message bot">
+              <div className="message-content">Typing...</div>
+            </div>}
             <div ref={messagesEndRef} />
           </div>
-
-          <form onSubmit={handleSubmit} className="input-container">
+          <div className="chat-input">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask me anything..."
+              onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+              placeholder="Ask something about Harmoni..."
             />
-            <button type="submit" disabled={isLoading}>➤</button>
-          </form>
-        </div>
+            <button onClick={handleSend} disabled={loading}>
+              {loading ? '...' : 'Send'}
+            </button>
+          </div>
+        </>
+      ) : (
+        <button className="chat-button" onClick={toggleChat}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z" fill="white"/>
+          </svg>
+          Chat
+        </button>
       )}
     </div>
   );
 };
 
-export default HarmoniChatBot;
+export default ChatBot;

@@ -66,13 +66,6 @@ router.put("/profile", protect, upload.single("profileImage"), async (req, res) 
 
     // Update Location
     if (req.body.latitude && req.body.longitude) {
-      donee.location = {
-        type: "Point",
-        coordinates: [req.body.longitude, req.body.latitude], // GeoJSON format
-      };
-    }
-
-    if (req.body.latitude && req.body.longitude) {
       const lat = parseFloat(req.body.latitude);
       const lng = parseFloat(req.body.longitude);
       if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
@@ -107,17 +100,28 @@ router.put("/profile", protect, upload.single("profileImage"), async (req, res) 
 //  Add Event
 router.post("/event", protect, async (req, res) => {
   try {
-    // Create new event with correct field name
+    const { name, description, date, venue, latitude, longitude, volunteerRequest } = req.body;
+
+    if (!latitude || !longitude) {
+      return res.status(400).json({ message: "Location is required" });
+    }
+
     const event = new Event({
-      ...req.body,
-      description: req.body.description.replace(/\r\n/g, "\n"), // Normalize line breaks
-      donee: req.user.id, // Correct field instead of createdBy
+      donee: req.user.id,
+      name,
+      description: description.replace(/\r\n/g, "\n"),
+      date,
+      venue,
+      location: {
+        type: "Point",
+        coordinates: [parseFloat(longitude), parseFloat(latitude)], // [lng, lat] format
+      },
+      volunteerRequest,
     });
 
     await event.save();
 
-    // Update Donee model to include event ID if there's an event array in Donee schema
-    await Donee.findByIdAndUpdate(req.user.id, { $push: { Event: event._id } });
+    await Donee.findByIdAndUpdate(req.user.id, { $push: { Event: event._id } }); // Ensure this matches Donee schema
 
     res.status(201).json(event);
   } catch (error) {
@@ -125,6 +129,7 @@ router.post("/event", protect, async (req, res) => {
     res.status(500).json({ message: "Error creating event", error: error.message });
   }
 });
+
 
 // Delete Event
 router.delete("/event/:id", protect, async (req, res) => {

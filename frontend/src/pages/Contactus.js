@@ -22,6 +22,7 @@ const ApprovedDonees = () => {
     const loader = new Loader({
       apiKey: "AIzaSyC3P0yKTLQS0_eQOj74g7N0co-daEwBKVY",
       version: "weekly",
+      libraries: ["places"],
     });
 
     loader.load().then(() => {
