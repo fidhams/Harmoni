@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Event = require("../models/Event");
+const Donor = require("../models/donor");
 
 
 router.get("/volunteer-events", async (req, res) => {
@@ -32,6 +33,8 @@ router.patch("/apply/:eventId", async (req, res) => {
 
         event.volunteers.push(donorId);
         await event.save();
+
+        await Donor.findByIdAndUpdate(donorId, { $push: { volunteering: event._id } });
 
         res.json({ success: true, message: "Applied successfully" });
     } catch (error) {

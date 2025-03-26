@@ -45,7 +45,6 @@ import VolunteerRequestForm from "./pages/volunteerreq";
 
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
-import AdminDonee from "./pages/AdminDonee";
 
 function App() {
   return (
@@ -64,7 +63,6 @@ function App() {
           {/* Admin Routes */}
           <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/donees" element={<AdminDonee />} />
 
           {/* Donor and Donee Authentication */}
           <Route path="/donorlogin" element={<DonorLogin />} />
