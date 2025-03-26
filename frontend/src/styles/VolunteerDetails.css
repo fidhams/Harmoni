@@ -1,0 +1,36 @@
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .volunteer-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: black;
+  }
+  
+  .volunteer-table th, .volunteer-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .volunteer-table th {
+    background: #007bff;
+    color: white;
+  }
+  
+  .volunteer-table tr:nth-child(even) {
+    background: #f2f2f2;
+  }
+  

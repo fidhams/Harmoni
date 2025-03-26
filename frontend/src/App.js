@@ -4,6 +4,8 @@ import { Provider } from "./components/ui/provider";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import "./App.css"; // Import the CSS file
+
 
 
 import Home from "./pages/Home";
@@ -28,6 +30,7 @@ import EditEvent from "./pages/EditEvent";
 import { AddNeed, EditNeed } from "./pages/AddNeed";
 import { AddImpactStory, EditImpactStory } from "./pages/AddImpactStories";
 import CheckDonations from "./pages/CheckDonations";
+import VolunteerDetails from "./pages/VolunteerDetails";
 
 
 import Volunteer from "./pages/Volunteer";
@@ -42,14 +45,15 @@ import VolunteerRequestForm from "./pages/volunteerreq";
 
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
-import AdminDonor from "./pages/AdminDonor";
 import AdminDonee from "./pages/AdminDonee";
 
 function App() {
   return (
     <Provider>
       <Router>
+      <div className="app-container">
         <Navbar /> {/* Navbar placed before Routes */}
+        <main className="content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/donations" element={<Donations />} />
@@ -60,7 +64,6 @@ function App() {
           {/* Admin Routes */}
           <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/donors" element={<AdminDonor />} />
           <Route path="/admin/donees" element={<AdminDonee />} />
 
           {/* Donor and Donee Authentication */}
@@ -84,6 +87,7 @@ function App() {
           <Route path="/add-impact-story" element={<AddImpactStory />} />
           <Route path="/edit-impact-story/:storyId" element={<EditImpactStory />} />
           <Route path="/check-donations" element={<CheckDonations />} />
+          <Route path="/volunteers/:eventId" element={<VolunteerDetails />} />
 
 
           {/* Other Pages */}
@@ -99,7 +103,9 @@ function App() {
           {/* 404 Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </main>
         <Footer />
+      </div>
       </Router>
     </Provider>
   );

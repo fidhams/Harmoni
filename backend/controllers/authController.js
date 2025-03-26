@@ -3,6 +3,20 @@ const Donee = require("../models/donee");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const express = require("express");
+const multer = require("multer");
+const path = require("path");
+
+// Configure Multer Storage
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Save files to "uploads/" folder
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+  },
+});
+
+const upload = multer({ storage: storage });
 
 
 const app = express();
@@ -71,11 +85,13 @@ const doneesignup = async (req, res) => {
       return res.status(409).json({ error: "Email already exists" });
     }
 
-    // Set location only if latitude and longitude are provided
-    const location = (latitude && longitude) ? {
-      type: "Point",
-      coordinates: [parseFloat(longitude), parseFloat(latitude)],
-    } : null;
+    // Get uploaded file path
+    const registrationCertificate = req.file ? `/uploads/${req.file.filename}` : null;
+
+    // Set location if latitude and longitude are provided
+    const location = latitude && longitude
+      ? { type: "Point", coordinates: [parseFloat(longitude), parseFloat(latitude)] }
+      : null;
 
     const newDonee = new Donee({
       name,
@@ -83,7 +99,8 @@ const doneesignup = async (req, res) => {
       password,
       phone,
       address,
-      location, // This will be null if no coordinates are provided
+      location,
+      registrationCertificate, // Save file path
     });
 
     await newDonee.save();
@@ -127,4 +144,4 @@ const doneelogin = async (req, res) => {
 };
 
 
-module.exports = { donorlogin, donorsignup, doneelogin, doneesignup };
+module.exports = { donorlogin, donorsignup, doneelogin, doneesignup, upload };

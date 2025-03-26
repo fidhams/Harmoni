@@ -193,7 +193,31 @@ router.put("/event/:id", protect, async (req, res) => {
     }
   });
   
-  
+//Volunteers
+router.get("/volunteers/:eventId", async (req, res) => {
+  try {
+    const { eventId } = req.params;
+
+    // Fetch the event and populate the volunteers field
+    const event = await Event.findById(eventId).populate({
+      path: "volunteers",
+      select: "name email phone skills", // Only fetch relevant fields
+    });
+
+    if (!event) {
+      return res.status(404).json({ success: false, message: "Event not found" });
+    }
+
+    res.json({
+      success: true,
+      eventName: event.name,
+      volunteers: event.volunteers || [], // Ensure an array is always returned
+    });
+  } catch (error) {
+    console.error("Error fetching volunteers:", error);
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
   
   
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Text, Button, VStack, HStack, Image, Badge } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import Notification from "./Notification";
 
 const DoneeDashboard = () => {
   const [profile, setProfile] = useState(null);
@@ -74,17 +75,20 @@ const DoneeDashboard = () => {
   
 
   return (
+    <Box>
+      
+    < Notification />
     <VStack spacing={5} p={5} align="center">
       <Text fontSize="2xl" fontWeight="bold">Donee Dashboard</Text>
       {profile ? (
-  <HStack spacing={3} p={3} shadow="md" borderWidth="1px" borderRadius="md" width="100%">
+        <HStack spacing={3} p={3} shadow="md" borderWidth="1px" borderRadius="md" width="100%">
     {profile.profileImage && (
       <Image
-        src={`http://localhost:5000/uploads/${profile.profileImage}`}
-        alt="Profile"
-        boxSize="150px"
-        borderRadius="full"
-        objectFit="cover"
+      src={`http://localhost:5000/uploads/${profile.profileImage}`}
+      alt="Profile"
+      boxSize="150px"
+      borderRadius="full"
+      objectFit="cover"
       />
     )}
       <VStack align="start">
@@ -119,6 +123,9 @@ const DoneeDashboard = () => {
           <Text fontSize="sm" color="gray.500">Volunteers Required: {event.volunteerRequest ? "Yes" : "No"}</Text>
           <Text fontSize="sm" color="gray.500" style={{ whiteSpace: "pre-line" }} >Description: {event.description}</Text>
           <HStack>
+            {event.volunteerRequest? 
+              <Button colorScheme="blue" onClick={() => navigate(`/volunteers/${event._id}`)}>Volunteer</Button> : null 
+            }
             <Button colorScheme="blue" onClick={() => navigate(`/edit-event/${event._id}`)}>Edit</Button>
             <Button colorScheme="red" onClick={() => handleDeleteEvent(event._id)}>Delete</Button>
           </HStack>
@@ -157,19 +164,19 @@ const DoneeDashboard = () => {
       <Button colorScheme="green" onClick={() => navigate("/add-impact-story")}>Add Impact Story</Button>
       
       {impactStories.length > 0 ? impactStories.map((story) => (
-    <Box key={story._id} style={{ whiteSpace: "pre-line" }} width="100%">
+        <Box key={story._id} style={{ whiteSpace: "pre-line" }} width="100%">
     <HStack p={3} shadow="sm" borderWidth="1px" borderRadius="md" align="start">
 
       
       {story.image && (
-      <Image
-      src={`http://localhost:5000/uploads/${story.image}`}
-      alt={story.title}
-      boxSize="100px"
-      borderRadius="md"
-      objectFit="cover"
-      />
-    )}
+        <Image
+        src={`http://localhost:5000/uploads/${story.image}`}
+        alt={story.title}
+        boxSize="100px"
+        borderRadius="md"
+        objectFit="cover"
+        />
+      )}
       <VStack align="start">
         <Text fontWeight="bold">{story.title}</Text>
         <Text>{story.description}</Text>
@@ -182,6 +189,7 @@ const DoneeDashboard = () => {
     </Box>
     )) : <Text>No impact stories posted yet.</Text>}
   </VStack>
+  </Box>
 
   );
 };

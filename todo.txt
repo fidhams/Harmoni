@@ -1,0 +1,10 @@
+* notification
+* email for password resetting and notification
+* donation tracking
+* chat between donor and donee
+* ai driven volunteer search
+* gamification
+* analytics
+* increase admin control
+
+* ui clean up

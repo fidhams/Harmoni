@@ -14,6 +14,7 @@ const doneeSchema = new mongoose.Schema({
   verified: { type: Boolean, default: false },
   profileImage: { type: String }, // URL of profile image
   description: { type: String },  // Short bio or description
+  registrationCertificate: { type: String }, // URL of uploaded document
   Event: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }], // Reference to Events
   Needs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Needs" }], // Reference to Donation Needs
   ImpactStory: [{ type: mongoose.Schema.Types.ObjectId, ref: "ImpactStory" }] // Reference to Impact Stories
