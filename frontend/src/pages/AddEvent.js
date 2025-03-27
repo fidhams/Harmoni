@@ -2,6 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { Box, Input, Button, Textarea, VStack, Heading, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "@googlemaps/js-api-loader";
+require("dotenv").config();
+
+const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const mapContainerStyle = {
   width: "100%",
@@ -30,7 +33,7 @@ const AddEvent = () => {
 
   const loadGoogleMaps = async () => {
     const loader = new Loader({
-      apiKey: "AIzaSyC3P0yKTLQS0_eQOj74g7N0co-daEwBKVY",
+      apiKey: API_KEY,
       version: "weekly",
       libraries: ["places"],
     });

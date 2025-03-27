@@ -4,6 +4,9 @@ import "../styles/home.css"; // Ensure the correct path for styles
 import ChatBot from "./ChatBot"; // Import the chatbot component
 import { Loader } from "@googlemaps/js-api-loader";
 import { Box } from "@chakra-ui/react";
+require("dotenv").config();
+
+const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -94,7 +97,7 @@ const Home = () => {
             const isCompleted = eventDate < new Date();
   const loadMap = (mapContainer, coordinates) => {
       const loader = new Loader({
-        apiKey: "AIzaSyC3P0yKTLQS0_eQOj74g7N0co-daEwBKVY",
+        apiKey: API_KEY,
         version: "weekly",
         libraries: ["places"],
       });

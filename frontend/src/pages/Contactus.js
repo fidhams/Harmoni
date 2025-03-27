@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import "../styles/contactus.css"; // Ensure correct path for CSS
+require("dotenv").config();
+
+const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const mapContainerStyle = {
   width: "100%",
@@ -20,7 +23,7 @@ const ApprovedDonees = () => {
 
   useEffect(() => {
     const loader = new Loader({
-      apiKey: "AIzaSyC3P0yKTLQS0_eQOj74g7N0co-daEwBKVY",
+      apiKey: API_KEY,
       version: "weekly",
       libraries: ["places"],
     });

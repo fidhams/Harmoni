@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import { Box, Text, Button, VStack } from "@chakra-ui/react";
 import { Loader } from "@googlemaps/js-api-loader";
+require("dotenv").config();
+
+const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const VolunteerEventsPage = () => {
   const [events, setEvents] = useState([]);
@@ -73,7 +76,7 @@ const VolunteerEventsPage = () => {
 
   const loadMap = (mapContainer, coordinates) => {
     const loader = new Loader({
-      apiKey: "AIzaSyC3P0yKTLQS0_eQOj74g7N0co-daEwBKVY",
+      apiKey: API_KEY,
       version: "weekly",
       libraries: ["places"],
     });
