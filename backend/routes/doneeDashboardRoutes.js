@@ -9,6 +9,17 @@ const { protect } = require("../middleware/authMiddleware");
 const bcrypt = require("bcrypt");
 
 
+require("dotenv").config();
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const GeminiVolunteerSearchModule = require('./geminiVolunteerSearch.js');
+const GeminiVolunteerSearch = GeminiVolunteerSearchModule.default; // Access default export
+
+// Gemini AI configuration
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const Donor = require("../models/donor");
+
+
+
 const multer = require("multer");
 const path = require("path");
 
@@ -216,6 +227,47 @@ router.get("/volunteers/:eventId", async (req, res) => {
   } catch (error) {
     console.error("Error fetching volunteers:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
+  }
+});
+
+// AI-based volunteer search
+router.post("/volunteers/search", async (req, res) => {
+  try {
+    const { searchQuery } = req.body;
+    
+    // Create an instance before calling methods
+    const searchInstance = new GeminiVolunteerSearch();
+
+
+    // console.log('GeminiVolunteerSearch:', GeminiVolunteerSearch);
+    // console.log('Methods:', Object.keys(GeminiVolunteerSearch));
+    // console.log('Methods:', Object.getOwnPropertyNames(GeminiVolunteerSearch.prototype));
+    // console.log('semanticSearch exists:', typeof GeminiVolunteerSearch.semanticSearch);
+    // console.log('semanticSearch exists:', typeof searchInstance.semanticSearch);
+    
+    // Verify the method exists
+    if (typeof searchInstance.semanticSearch !== 'function') {
+      return res.status(500).json({
+        success: false,
+        message: "Search method not found",
+        error: "semanticSearch is not a function"
+      });
+    }
+
+    const results = await searchInstance.semanticSearch(searchQuery);
+
+    res.json({
+      success: true,
+      results,
+      message: `Found ${results.length} relevant volunteers`
+    });
+  } catch (error) {
+    console.error('Search error:', error);
+    res.status(500).json({
+      success: false,
+      message: "Search failed",
+      error: error.message
+    });
   }
 });
   

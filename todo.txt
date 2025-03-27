@@ -1,4 +1,5 @@
 * notification
+* adhar, flag for creditability
 * email for password resetting and notification
 * donation tracking
 * chat between donor and donee

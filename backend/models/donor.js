@@ -10,6 +10,7 @@ const donorSchema = new mongoose.Schema({
     phone: { type: String, required: true },
     badges: [{ type: String }], // Gamified badges
     skills: [{ type: String }], // For volunteer skill matching
+    description: {type: String, required: false },
     donations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Donation" }],
     volunteering: [{ type: mongoose.Schema.Types.ObjectId, ref: "Event" }],
     createdAt: { type: Date, default: Date.now },
