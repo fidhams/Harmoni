@@ -17,7 +17,7 @@ const Home = () => {
 
   const fetchEvents = async () => {
     try {
-      const response = await fetch("http://localhost:5000/events"); // Ensure correct API
+      const response = await fetch("http://localhost:5000/api/events"); // Ensure correct API
       const data = await response.json();
       console.log("Fetched events:", data);
       
@@ -70,6 +70,20 @@ const Home = () => {
           </div>
         </div>
       </header>
+
+      {/* About Section */}
+      <section className="about-section">
+      <div className="about-content">
+        <h1 className="about-us">About Us</h1>
+        <p className="about-p">
+          Our platform connects donors with orphanages, old age homes, and similar organizations.
+          We're committed to transparency and efficiency, ensuring every donation, big or small,
+          makes a meaningful impact. Join us in fostering a culture of compassion and support,
+          where no one is left behind. Together, let's transform lives, one donation at a time.
+        </p>
+      </div>
+    </section>
+
 
       {/* Events Section */}
       <span className="whats-happening" color="black" >See what's happening around you</span>

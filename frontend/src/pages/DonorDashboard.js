@@ -3,6 +3,7 @@ import {
   Box, Text, Button, VStack, Spinner, Image, Wrap, WrapItem, Flex, Badge 
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import Chat from "../components/Chat";
 
 const DonorDashboard = () => {
   const [loading, setLoading] = useState(true);
@@ -162,6 +163,9 @@ const DonorDashboard = () => {
       )}
 
       <Button colorScheme="red" onClick={handleLogout}>Logout</Button>
+      {/* Example usage in donor dashboard */}
+      {/* <Chat senderType="donor" senderId={donor._id} receiverType="donee" receiverId={selectedDoneeId} /> */}
+
     </VStack>
   );
 };

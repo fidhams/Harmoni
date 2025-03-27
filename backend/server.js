@@ -1,13 +1,15 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require('cors');
+const http = require("http");
+const { Server } = require("socket.io");
 
 
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes"); //donor and donee sign up login
 const orgRoutes = require("./routes/orgRoutes");
 const volunteerRoutes = require("./routes/volunteerRoutes");
-const chatRoutes = require("./routes/chatRoutes");
+// const chatRoutes = require("./routes/chatRoutes");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const homeRoutes = require('./routes/homeRoutes');
 const impactRoutes = require('./routes/impactRoutes'); //
@@ -21,11 +23,10 @@ const contactRoutes = require('./routes/contactRoutes');
 const chatbotRoutes= require('./routes/chatbotRoutes');
 
 
-// const FAQ = require("./models/FAQ");
-
 
 
 const app = express();
+const server = http.createServer(app);
 
 // Connect to MongoDB
 connectDB();
@@ -41,7 +42,7 @@ app.use("/api/organizations", orgRoutes);
 app.use("/api/donor", donorDashboardRoutes);
 app.use("/api/donee", doneeDashboardRoutes);
 app.use("/uploads", express.static("uploads"));
-app.use("/api/chat", chatRoutes);
+
 app.use('/api/impact-stories', impactRoutes);
 app.use("/api/volunteers", volunteerRoutes);
 app.use("/api/d", donationPageRoutes);
@@ -50,7 +51,7 @@ app.use("/api/approved-donees", contactRoutes);
 app.use("/api/chatbot", chatbotRoutes);
 
 // Default route set to Home
-app.use('/', homeRoutes);
+app.use('/api', homeRoutes);
 
 // Error Handling Middleware
 app.use(notFound);
@@ -58,39 +59,31 @@ app.use(errorHandler);
 
 
 
-// io.on("connection", (socket) => {
-//     console.log("User connected");
-  
-//     socket.on("userMessage", async (message) => {
-//       try {
-//         // First, check if the question is in the database
-//         const faq = await FAQ.findOne({ question: { $regex: new RegExp(message, "i") } });
-  
-//         if (faq) {
-//           socket.emit("botMessage", faq.answer);
-//         } else {
-//           // If no FAQ, ask Hugging Face model
-//           const response = await axios.post(
-//             `https://api-inference.huggingface.co/models/${MODEL_NAME}`,
-//             { inputs: `Website Info: ${siteInfo}\nUser: ${message}` },
-//             {
-//               headers: { Authorization: `Bearer ${HF_API_KEY}` },
-//             }
-//           );
-  
-//           const botMessage = response.data.generated_text || "I'm not sure about that. Can you try rephrasing?";
-//           socket.emit("botMessage", botMessage);
-//         }
-//       } catch (error) {
-//         console.error("Error with Hugging Face:", error);
-//         socket.emit("botMessage", "Sorry, I couldn't process that right now.");
-//       }
-//     });
-  
-//     socket.on("disconnect", () => {
-//       console.log("User disconnected");
-//     });
-//   });
+///chat implementation
+const io = new Server(server, {
+  cors: {
+      origin: "http://localhost:3000", // Replace with your frontend URL
+      methods: ["GET", "POST"]
+  }
+});
+
+io.on("connection", (socket) => {
+  console.log("User Connected:", socket.id);
+
+  socket.on("join_room", (room) => {
+      socket.join(room);
+      console.log(`User with ID: ${socket.id} joined room: ${room}`);
+  });
+
+  socket.on("send_message", (data) => {
+      io.to(data.room).emit("receive_message", data);
+  });
+
+  socket.on("disconnect", () => {
+      console.log("User Disconnected:", socket.id);
+  });
+});
+
 
 
 

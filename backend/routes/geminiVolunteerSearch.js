@@ -16,8 +16,8 @@ class GeminiVolunteerSearch {
       // Step 1: Enhance and understand the search query
       const queryEnhancementPrompt = `
         Given the search query: "${searchQuery}", 
-        generate a comprehensive set of related skills, other terms that could be used instead of the given terms, 
-        job roles, and potential matching criteria. 
+        generate a comprehensive set of related skills, alternative terms, synonyms, and broader or specialized skill variations.  
+  Additionally, identify relevant volunteer roles, job roles, and areas where these skills are commonly applied. 
         Provide a detailed, nuanced interpretation 
         that captures the essence of the required skills.
       `;

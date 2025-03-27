@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Text, Button, VStack, HStack, Image, Badge } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import Notification from "./Notification";
+import Chat from "../components/Chat";
 
 const DoneeDashboard = () => {
   const [profile, setProfile] = useState(null);
@@ -189,6 +190,9 @@ const DoneeDashboard = () => {
     </Box>
     )) : <Text>No impact stories posted yet.</Text>}
   </VStack>
+  {/* Example usage in donee dashboard */}
+  {/* <Chat senderType="donee" senderId={profile._id} receiverType="donor" receiverId={selectedDonorId} /> */}
+
   </Box>
 
   );
