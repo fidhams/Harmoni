@@ -4,16 +4,16 @@ import "../styles/home.css"; // Ensure the correct path for styles
 import ChatBot from "./ChatBot"; // Import the chatbot component
 import { Loader } from "@googlemaps/js-api-loader";
 import { Box } from "@chakra-ui/react";
-require("dotenv").config();
 
-const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const Home = () => {
   const [events, setEvents] = useState([]);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const [apiKey, setApiKey] = useState("");
 
   useEffect(() => {
+    getMapAPI();
     fetchEvents();
     checkUserLogin();
   }, []);
@@ -49,6 +49,13 @@ const Home = () => {
       }
     }
   };
+
+  const getMapAPI = () => {
+    fetch("http://localhost:5000/api/maps-key")
+      .then((response) => response.json())
+      .then((data) => setApiKey(data.apiKey))
+      .catch((error) => console.error("Error fetching API key:", error));
+  }
 
   // Handle Donate Now button click
   const handleDonateClick = () => {
@@ -97,7 +104,7 @@ const Home = () => {
             const isCompleted = eventDate < new Date();
   const loadMap = (mapContainer, coordinates) => {
       const loader = new Loader({
-        apiKey: API_KEY,
+        apiKey: apiKey,
         version: "weekly",
         libraries: ["places"],
       });

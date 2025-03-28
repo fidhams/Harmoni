@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; 
 import { Box, Text, Button, VStack } from "@chakra-ui/react";
 import { Loader } from "@googlemaps/js-api-loader";
-require("dotenv").config();
 
-const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const VolunteerEventsPage = () => {
   const [events, setEvents] = useState([]);
   const [user, setUser] = useState(null); // Store logged-in user
+  const [apiKey, setApiKey] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
+    getMapAPI();
     fetchEvents();
     checkUserLogin();
   }, []);
@@ -45,6 +45,13 @@ const VolunteerEventsPage = () => {
     }
   };
 
+  const getMapAPI = () => {
+    fetch("http://localhost:5000/api/maps-key")
+      .then((response) => response.json())
+      .then((data) => setApiKey(data.apiKey))
+      .catch((error) => console.error("Error fetching API key:", error));
+  }
+
   const applyForEvent = async (eventId) => {
     if (!user) {
       navigate("/donorlogin"); // Redirect to login if user is not logged in
@@ -76,7 +83,7 @@ const VolunteerEventsPage = () => {
 
   const loadMap = (mapContainer, coordinates) => {
     const loader = new Loader({
-      apiKey: API_KEY,
+      apiKey: apiKey,
       version: "weekly",
       libraries: ["places"],
     });

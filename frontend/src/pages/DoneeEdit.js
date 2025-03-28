@@ -3,9 +3,6 @@ import { Box, Input, Button, Textarea, VStack, Text, Image } from "@chakra-ui/re
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Loader } from "@googlemaps/js-api-loader";
-require("dotenv").config();
-
-const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const mapContainerStyle = {
   width: "100%",
@@ -29,38 +26,57 @@ const DoneeProfile = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [apiKey, setApiKey] = useState("");
+  const [mapInstance, setMapInstance] = useState(null);
+  const [marker, setMarker] = useState(null);
   const navigate = useNavigate();
   const mapRef = useRef(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const getMapAPI = async () => {
       try {
-        const token = localStorage.getItem("token");
-        const res = await axios.get("http://localhost:5000/api/donee/dashboard", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (res.status === 200 && res.data && res.data.profile) {
-          setProfile({
-            ...res.data.profile,
-            password: "",
-            latitude: res.data.profile?.location?.latitude || "",
-            longitude: res.data.profile?.location?.longitude || "",
-            profileImage: null,
-          });
-
-          if (res.data.profile.profileImage) {
-            setImagePreview(`http://localhost:5000/uploads/${res.data.profile.profileImage}`);
-          }
-        }
+        const response = await fetch("http://localhost:5000/api/maps-key");
+        const data = await response.json();
+        setApiKey(data.apiKey);
       } catch (error) {
-        console.error("Error fetching profile:", error.response ? error.response.data : error.message);
+        console.error("Error fetching API key:", error);
       }
     };
 
+    getMapAPI();
     fetchProfile();
-    loadGoogleMaps();
   }, []);
+
+  useEffect(() => {
+    if (apiKey) {
+      loadGoogleMaps();
+    }
+  }, [apiKey]);
+
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:5000/api/donee/dashboard", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (res.status === 200 && res.data && res.data.profile) {
+        setProfile({
+          ...res.data.profile,
+          password: "",
+          latitude: res.data.profile?.location?.latitude || "",
+          longitude: res.data.profile?.location?.longitude || "",
+          profileImage: null,
+        });
+
+        if (res.data.profile.profileImage) {
+          setImagePreview(`http://localhost:5000/uploads/${res.data.profile.profileImage}`);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching profile:", error.response ? error.response.data : error.message);
+    }
+  };
 
   const handleChange = (e) => {
     setProfile({ ...profile, [e.target.name]: e.target.value });
@@ -74,13 +90,13 @@ const DoneeProfile = () => {
   };
 
   const loadGoogleMaps = async () => {
-    const loader = new Loader({
-      apiKey: API_KEY,
-      version: "weekly",
-      libraries: ["places"],
-    });
-
     try {
+      const loader = new Loader({
+        apiKey: apiKey,
+        version: "weekly",
+        libraries: ["places"],
+      });
+
       const google = await loader.load();
       if (mapRef.current) {
         const map = new google.maps.Map(mapRef.current, {
@@ -90,11 +106,14 @@ const DoneeProfile = () => {
           zoom: 12,
         });
 
+        setMapInstance(map);
+
         if (profile.latitude && profile.longitude) {
-          new google.maps.Marker({
+          const newMarker = new google.maps.Marker({
             position: { lat: parseFloat(profile.latitude), lng: parseFloat(profile.longitude) },
             map,
           });
+          setMarker(newMarker);
         }
 
         google.maps.event.addListener(map, "click", (event) => {
@@ -103,6 +122,16 @@ const DoneeProfile = () => {
             latitude: event.latLng.lat(),
             longitude: event.latLng.lng(),
           });
+
+          if (marker) {
+            marker.setMap(null);
+          }
+
+          const newMarker = new google.maps.Marker({
+            position: event.latLng,
+            map,
+          });
+          setMarker(newMarker);
         });
       }
     } catch (error) {
@@ -119,6 +148,23 @@ const DoneeProfile = () => {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           });
+
+          if (mapInstance) {
+            mapInstance.setCenter({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+
+            if (marker) {
+              marker.setMap(null);
+            }
+
+            const newMarker = new window.google.maps.Marker({
+              position: { lat: position.coords.latitude, lng: position.coords.longitude },
+              map: mapInstance,
+            });
+            setMarker(newMarker);
+          }
         },
         (error) => console.error("Error getting location", error)
       );
@@ -140,7 +186,7 @@ const DoneeProfile = () => {
       });
 
       const res = await axios.put("http://localhost:5000/api/donee/profile", formData, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
       });
 
       if (res.status === 200) {
@@ -178,13 +224,7 @@ const DoneeProfile = () => {
         <div ref={mapRef} style={mapContainerStyle} />
 
         <Button colorScheme="blue" onClick={useMyLocation}>Use My Location</Button>
-
-        <Input type="text" placeholder="Latitude" name="latitude" value={profile.latitude} onChange={handleChange} color="black" />
-        <Input type="text" placeholder="Longitude" name="longitude" value={profile.longitude} onChange={handleChange} color="black" />
-        <Input type="password" placeholder="New Password (optional)" name="password" value={profile.password} onChange={handleChange} color="black" />
-
         <Button colorScheme="green" type="submit" isLoading={loading}>Update Profile</Button>
-        <Button colorScheme="gray" onClick={() => navigate("/doneedashboard")} isDisabled={loading}>Cancel</Button>
       </VStack>
     </Box>
   );

@@ -1,9 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Loader } from "@googlemaps/js-api-loader";
 import "../styles/contactus.css"; // Ensure correct path for CSS
-require("dotenv").config();
 
-const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const mapContainerStyle = {
   width: "100%",
@@ -12,7 +10,17 @@ const mapContainerStyle = {
 
 const ApprovedDonees = () => {
   const [donees, setDonees] = useState([]);
+  const [apiKey, setApiKey] = useState("");
   const mapRefs = useRef({}); // Store map instances for multiple donees
+
+  useEffect(() => {
+    fetch("http://localhost:5000/api/maps-key")
+      .then((response) => response.json())
+      .then((data) => {
+        setApiKey(data.apiKey);
+      })
+      .catch((error) => console.error("Error fetching API key:", error));
+  }, []);
 
   useEffect(() => {
     fetch("http://localhost:5000/api/approved-donees") // Replace with your Express API URL
@@ -22,8 +30,10 @@ const ApprovedDonees = () => {
   }, []);
 
   useEffect(() => {
+    if (!apiKey || donees.length === 0) return;
+    
     const loader = new Loader({
-      apiKey: API_KEY,
+      apiKey: apiKey,
       version: "weekly",
       libraries: ["places"],
     });

@@ -2,9 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Box, Input, Button, Textarea, VStack, Heading, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { Loader } from "@googlemaps/js-api-loader";
-require("dotenv").config();
-
-const API_KEY = process.env.GOOGLEMAPS_API_KEY;
 
 const mapContainerStyle = {
   width: "100%",
@@ -26,20 +23,25 @@ const AddEvent = () => {
 
   const navigate = useNavigate();
   const mapRef = useRef(null);
+  const [apiKey, setApiKey] = useState("");
 
   useEffect(() => {
-    loadGoogleMaps();
+    fetch("http://localhost:5000/api/maps-key")
+      .then((response) => response.json())
+      .then((data) => setApiKey(data.apiKey))
+      .catch((error) => console.error("Error fetching API key:", error));
   }, []);
 
-  const loadGoogleMaps = async () => {
+  useEffect(() => {
+    if (!apiKey) return; // Wait for API key before loading the map
+
     const loader = new Loader({
-      apiKey: API_KEY,
+      apiKey: apiKey,
       version: "weekly",
       libraries: ["places"],
     });
 
-    try {
-      const google = await loader.load();
+    loader.load().then((google) => {
       if (mapRef.current) {
         const map = new google.maps.Map(mapRef.current, {
           center: formData.latitude && formData.longitude
@@ -56,17 +58,18 @@ const AddEvent = () => {
         }
 
         google.maps.event.addListener(map, "click", (event) => {
-          setFormData({
-            ...formData,
+          setFormData((prevFormData) => ({
+            ...prevFormData,
             latitude: event.latLng.lat(),
             longitude: event.latLng.lng(),
-          });
+          }));
         });
       }
-    } catch (error) {
+    }).catch((error) => {
       console.error("Error loading Google Maps:", error);
-    }
-  };
+    });
+
+  }, [apiKey]); // Depend on apiKey to ensure map loads only after key is set
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
