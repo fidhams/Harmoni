@@ -22,18 +22,16 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DonorChat from "../components/DonorChat";
 
-
-
 const ChatList = () => {
   const [chatList, setChatList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeChat, setActiveChat] = useState(null); // Track which chat is active
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const { donorId } = useParams(); // Extract donorId from the URL if needed
   console.log("donorId", donorId);
 
-  // adjust based on how you store user info
   const token = localStorage.getItem("token");
 
   const fetchChatList = async () => {
@@ -76,7 +74,15 @@ const ChatList = () => {
   const handleChatClick = (doneeId) => {
     // Toggle active chat state
     setActiveChat(activeChat === doneeId ? null : doneeId);
+    setIsDrawerOpen(true);
   };
+
+  const handleDrawerClose = () => {
+    setIsDrawerOpen(false);
+  };
+
+  // Find the active chat data
+  const activeChatData = chatList.find(chat => chat.doneeId === activeChat);
 
   if (loading) {
     return (
@@ -129,10 +135,10 @@ const ChatList = () => {
                 position="relative"
               >
                 <HStack spacing={4}>
-                <Avatar.Root size="sm" shape="circle" className="AvatarRoot">
+                  <Avatar.Root size="sm" shape="circle" className="AvatarRoot">
                     <Avatar.Fallback name={chat.doneeName} />
                     <Avatar.Image src={`http://localhost:5000/uploads/${chat.profileImage}`}/>
-                </Avatar.Root>
+                  </Avatar.Root>
                   <Box flex="1">
                     <Flex justify="space-between" align="center">
                       <Text fontWeight="bold">{chat.doneeName}</Text>
@@ -148,7 +154,6 @@ const ChatList = () => {
                       {chat.lastMessage}
                     </Text>
                   </Box>
-                  {/* <DonorChat senderType="donor" senderId={donorId} receiverType="donee" receiverId={chat.doneeId} /> */}
                   {chat.unreadCount > 0 && (
                     <Badge 
                       colorScheme="blue" 
@@ -160,19 +165,24 @@ const ChatList = () => {
                     </Badge>
                   )}
                 </HStack>
-                {activeChat === chat.doneeId && (
-                <DonorChat 
-                  senderType="donor" 
-                  senderId={donorId} 
-                  receiverType="donee" 
-                  receiverId={chat.doneeId} 
-                />
-              )}
               </Box>
             </React.Fragment>
           ))}
         </Box>
       )}
+
+      {activeChat && activeChatData && (
+        <DonorChat 
+          senderType="donor" 
+          senderId={donorId} 
+          receiverType="donee" 
+          receiverId={activeChat}
+          receiverName={activeChatData.doneeName}
+          isOpen={isDrawerOpen}
+          onClose={handleDrawerClose}
+        />
+      )}
+      {/* <ToastContainer /> */}
     </Container>
   );
 };

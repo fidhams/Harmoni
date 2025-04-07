@@ -7,7 +7,6 @@ import {
   Drawer, 
   Portal,
   Box, 
-  Float, 
   Input, 
   Text, 
   Spinner,
@@ -18,14 +17,23 @@ import {
 // Create socket connection outside component to prevent multiple connections
 const socket = io.connect("http://localhost:5000"); // Backend URL
 
-const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
-    const [open, setOpen] = useState(true); // Auto-open when rendered
+const DonorChat = ({ 
+  senderType, 
+  senderId, 
+  receiverType, 
+  receiverId, 
+  isOpen = false, 
+  onClose,
+  receiverName: initialReceiverName,
+  onMessagesRead // Callback for parent component to update unread counts
+}) => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [chatAllowed, setChatAllowed] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [receiverName, setReceiverName] = useState("");
+    const [receiverName, setReceiverName] = useState(initialReceiverName || "");
     const messagesEndRef = useRef(null);
+    const messagesContainerRef = useRef(null);
     
     // Create a consistent room ID format
     const room = [senderType + senderId, receiverType + receiverId].sort().join("_");
@@ -57,8 +65,13 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
       }
     };
 
-    // Function to get receiver's name
+    // Function to get receiver's name if not provided
     const getReceiverName = async () => {
+      if (initialReceiverName) {
+        setReceiverName(initialReceiverName);
+        return;
+      }
+      
       try {
         // Create an endpoint to fetch user details
         const url = `http://localhost:5000/api/users/${receiverType}/${receiverId}`;
@@ -81,10 +94,30 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
+    // Mark messages as read when they become visible
+    const markMessagesAsRead = async () => {
+      if (isOpen && messages.length > 0) {
+        try {
+          await axios.put(
+            `http://localhost:5000/api/chat/messages/read/${room}/${senderType}/${senderId}`,
+            {},
+            axiosConfig
+          );
+          
+          // If callback exists, notify parent component that messages were read
+          if (onMessagesRead) {
+            onMessagesRead(room);
+          }
+        } catch (err) {
+          console.error("Error marking messages as read:", err);
+        }
+      }
+    };
+
     useEffect(() => {
       checkChatPermission();
-      getReceiverName(); // Fetch receiver's name when component mounts
-    }, []);
+      getReceiverName();
+    }, [receiverId]); // Re-fetch when receiverId changes
   
     useEffect(() => {
       if (!chatAllowed) return;
@@ -99,6 +132,8 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
           setMessages(res.data);
           // Scroll to bottom after messages load
           setTimeout(scrollToBottom, 100);
+          // Mark messages as read after loading them
+          setTimeout(markMessagesAsRead, 300);
         })
         .catch((err) => console.error("Error fetching messages:", err));
   
@@ -107,6 +142,10 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
         setMessages((prev) => [...prev, data]);
         // Scroll to bottom when new message arrives
         setTimeout(scrollToBottom, 100);
+        // If the sender is not us, mark as read (since we're viewing the chat)
+        if (data.senderType !== senderType && isOpen) {
+          setTimeout(markMessagesAsRead, 300);
+        }
       };
       
       socket.on("receive_message", handleNewMessage);
@@ -117,6 +156,27 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
         socket.emit("leave_room", room);
       };
     }, [room, chatAllowed]);
+
+    // Mark messages as read when chat is opened
+    useEffect(() => {
+      if (isOpen && chatAllowed) {
+        markMessagesAsRead();
+      }
+    }, [isOpen, chatAllowed]);
+    
+    // Handle visibility changes - mark as read when chat becomes visible
+    useEffect(() => {
+      const handleVisibilityChange = () => {
+        if (!document.hidden && isOpen && chatAllowed) {
+          markMessagesAsRead();
+        }
+      };
+      
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+      return () => {
+        document.removeEventListener("visibilitychange", handleVisibilityChange);
+      };
+    }, [isOpen, chatAllowed]);
   
     const sendMessage = () => {
       if (message.trim()) {
@@ -171,21 +231,26 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
         );
         
         setChatAllowed(true);
-        setOpen(true);
       } catch (err) {
         console.error("Failed to initiate chat:", err);
       }
     };
   
-    if (loading) return <Spinner size="sm" />;
+    if (loading) return null; // Don't render anything while loading
 
-    // Handle drawer close properly - don't re-render whole component
-    const handleDrawerClose = () => {
-      setOpen(false);
+    // Define a proper close handler that calls the parent component
+    const handleClose = () => {
+      if (onClose) {
+        onClose();
+      }
     };
   
     return (
-      <Drawer.Root size="sm" open={open} onOpenChange={(e) => setOpen(e.open)}>
+      <Drawer.Root size="sm" open={isOpen} onOpenChange={(e) => {
+        if (!e.open && onClose) {
+          onClose();
+        }
+      }}>
         <Portal>
           <Drawer.Backdrop />
           <Drawer.Positioner>
@@ -193,7 +258,7 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
               <Drawer.Header>
                 <Drawer.Title>{receiverName || `Chat with ${receiverType}`}</Drawer.Title>
                 <Drawer.CloseTrigger asChild>
-                  <CloseButton size="sm" onClick={handleDrawerClose} />
+                  <CloseButton size="sm" onClick={handleClose} />
                 </Drawer.CloseTrigger>
               </Drawer.Header>
               <Drawer.Body>
@@ -209,6 +274,7 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
                 ) : (
                   <VStack spacing={3} align="stretch" height="100%">
                     <Box 
+                      ref={messagesContainerRef}
                       flex="1" 
                       overflowY="auto" 
                       p={2} 
@@ -216,6 +282,12 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
                       border="1px solid"
                       borderColor="gray.200"
                       minHeight="300px"
+                      onScroll={() => {
+                        // Mark messages as read when scrolling through chat
+                        if (messagesContainerRef.current && isOpen) {
+                          markMessagesAsRead();
+                        }
+                      }}
                     >
                       {messages.length === 0 ? (
                         <Text textAlign="center" color="gray.500">No messages yet</Text>
@@ -250,6 +322,7 @@ const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder="Type a message..."
+                        autoFocus
                       />
                       <Button 
                         onClick={sendMessage} 
