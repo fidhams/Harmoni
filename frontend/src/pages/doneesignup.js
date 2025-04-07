@@ -81,12 +81,12 @@ const DoneeSignup = () => {
 
       <div className="login-section">
         <p>Already have an Account?</p>
-        <Link to="/doneelogin" className="login-button" style={{ color: "green" }}>Login for Organisation</Link>
+        <Link to="/doneelogin" className="login-button" style={{ color: "#0c99c0" }}>Login for Organisation</Link>
       </div>
 
       <div className="donor-login-link">
         <p>Are you a donor? </p>
-        <Link to="/donorlogin" className="donor-button" style={{ color: "green" }}>Login as Donor</Link>
+        <Link to="/donorlogin" className="donor-button" style={{ color: "#0c99c0" }}>Login as Donor</Link>
       </div>
     </Box>
   );

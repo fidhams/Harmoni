@@ -12,15 +12,14 @@ import {
   Text, 
   Spinner,
   VStack,
-  HStack,
-  Flex
+  HStack
 } from "@chakra-ui/react";
 
 // Create socket connection outside component to prevent multiple connections
 const socket = io.connect("http://localhost:5000"); // Backend URL
 
-const Chat = ({ senderType, senderId, receiverType, receiverId }) => {
-    const [open, setOpen] = useState(false);
+const DonorChat = ({ senderType, senderId, receiverType, receiverId }) => {
+    const [open, setOpen] = useState(true); // Auto-open when rendered
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
     const [chatAllowed, setChatAllowed] = useState(false);
@@ -178,114 +177,96 @@ const Chat = ({ senderType, senderId, receiverType, receiverId }) => {
       }
     };
   
-    if (loading) return <Spinner size="sm" ml="5" />;
+    if (loading) return <Spinner size="sm" />;
+
+    // Handle drawer close properly - don't re-render whole component
+    const handleDrawerClose = () => {
+      setOpen(false);
+    };
   
     return (
-      <Box position="relative" left="25px" bottom="30px">
-        <Float>
-          <Drawer.Root size="sm" open={open} onOpenChange={(e) => setOpen(e.open)}>
-            <Drawer.Trigger asChild>
-              <Button 
-                variant="surface" 
-                size="sm" 
-                leftIcon={
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="currentColor"
-                    className="bi bi-chat"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105" />
-                  </svg>
-                }
-              >
-                Chat
-              </Button>
-            </Drawer.Trigger>
-            <Portal>
-              <Drawer.Backdrop />
-              <Drawer.Positioner>
-                <Drawer.Content>
-                  <Drawer.Header>
-                    <Drawer.Title>{receiverName || `Chat with ${receiverType}`}</Drawer.Title>
-                    <Drawer.CloseTrigger asChild>
-                      <CloseButton size="sm" />
-                    </Drawer.CloseTrigger>
-                  </Drawer.Header>
-                  <Drawer.Body>
-                    {!chatAllowed ? (
-                      <VStack spacing={4}>
-                        <Text>Chat not initiated yet.</Text>
-                        {senderType === "donee" && (
-                          <Button colorScheme="blue" onClick={initiateChat}>
-                            Initiate Chat
-                          </Button>
-                        )}
-                      </VStack>
-                    ) : (
-                      <VStack spacing={3} align="stretch" height="100%">
-                        <Box 
-                          flex="1" 
-                          overflowY="auto" 
-                          p={2} 
-                          borderRadius="md"
-                          border="1px solid"
-                          borderColor="gray.200"
-                        >
-                          {messages.length === 0 ? (
-                            <Text textAlign="center" color="gray.500">No messages yet</Text>
-                          ) : (
-                            messages.map((msg, index) => (
-                              <Box 
-                                key={index}
-                                bg={msg.senderType === senderType ? "blue.50" : "gray.50"}
-                                p={2}
-                                borderRadius="md"
-                                mb={2}
-                                maxW="80%"
-                                alignSelf={msg.senderType === senderType ? "flex-end" : "flex-start"}
-                                ml={msg.senderType === senderType ? "auto" : 0}
-                              >
-                                <Text fontWeight="bold" fontSize="sm">
-                                  {msg.senderType === senderType ? "You" : msg.sender}
-                                </Text>
-                                <Text>{msg.message}</Text>
-                                <Text fontSize="xs" color="gray.500" textAlign="right">
-                                  {new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
-                                </Text>
-                              </Box>
-                            ))
-                          )}
-                          <div ref={messagesEndRef} />
-                        </Box>
-                        
-                        <HStack spacing={2}>
-                          <Input
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            placeholder="Type a message..."
-                          />
-                          <Button 
-                            onClick={sendMessage} 
-                            colorScheme="blue"
-                            isDisabled={!message.trim()}
-                          >
-                            Send
-                          </Button>
-                        </HStack>
-                      </VStack>
+      <Drawer.Root size="sm" open={open} onOpenChange={(e) => setOpen(e.open)}>
+        <Portal>
+          <Drawer.Backdrop />
+          <Drawer.Positioner>
+            <Drawer.Content>
+              <Drawer.Header>
+                <Drawer.Title>{receiverName || `Chat with ${receiverType}`}</Drawer.Title>
+                <Drawer.CloseTrigger asChild>
+                  <CloseButton size="sm" onClick={handleDrawerClose} />
+                </Drawer.CloseTrigger>
+              </Drawer.Header>
+              <Drawer.Body>
+                {!chatAllowed ? (
+                  <VStack spacing={4}>
+                    <Text>Chat not initiated yet.</Text>
+                    {senderType === "donee" && (
+                      <Button colorScheme="blue" onClick={initiateChat}>
+                        Initiate Chat
+                      </Button>
                     )}
-                  </Drawer.Body>
-                </Drawer.Content>
-              </Drawer.Positioner>
-            </Portal>
-          </Drawer.Root>
-        </Float>
-      </Box>
+                  </VStack>
+                ) : (
+                  <VStack spacing={3} align="stretch" height="100%">
+                    <Box 
+                      flex="1" 
+                      overflowY="auto" 
+                      p={2} 
+                      borderRadius="md"
+                      border="1px solid"
+                      borderColor="gray.200"
+                      minHeight="300px"
+                    >
+                      {messages.length === 0 ? (
+                        <Text textAlign="center" color="gray.500">No messages yet</Text>
+                      ) : (
+                        messages.map((msg, index) => (
+                          <Box 
+                            key={index}
+                            bg={msg.senderType === senderType ? "blue.50" : "gray.50"}
+                            p={2}
+                            borderRadius="md"
+                            mb={2}
+                            maxW="80%"
+                            alignSelf={msg.senderType === senderType ? "flex-end" : "flex-start"}
+                            ml={msg.senderType === senderType ? "auto" : 0}
+                          >
+                            <Text fontWeight="bold" fontSize="sm">
+                              {msg.senderType === senderType ? "You" : msg.sender || receiverName}
+                            </Text>
+                            <Text>{msg.message}</Text>
+                            <Text fontSize="xs" color="gray.500" textAlign="right">
+                              {new Date(msg.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                            </Text>
+                          </Box>
+                        ))
+                      )}
+                      <div ref={messagesEndRef} />
+                    </Box>
+                    
+                    <HStack spacing={2}>
+                      <Input
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Type a message..."
+                      />
+                      <Button 
+                        onClick={sendMessage} 
+                        colorScheme="blue"
+                        isDisabled={!message.trim()}
+                      >
+                        Send
+                      </Button>
+                    </HStack>
+                  </VStack>
+                )}
+              </Drawer.Body>
+            </Drawer.Content>
+          </Drawer.Positioner>
+        </Portal>
+      </Drawer.Root>
     );
 };
 
-export default Chat;
+export default DonorChat;

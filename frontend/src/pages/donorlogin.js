@@ -61,13 +61,13 @@ const DonorLogin = () => {
       </VStack>
       <div className="Signup-section">
         <p>Don't have an Account?</p>
-        <Link to="/donorsignup" className="signup-button" style={{color:'green' }} >Signup as Donor</Link>
+        <Link to="/donorsignup" className="signup-button" style={{color:'#0c99c0' }} >Signup as Donor</Link>
       </div>
 
       {/* ✅ Link to Donor Login */}
       <div className="donor-login-link">
         <p>Are you an Organisation? </p>
-        <Link to="/doneelogin" className="donee-button" style={{color:'green'}} >Login as Organisation</Link>
+        <Link to="/doneelogin" className="donee-button" style={{color:'#0c99c0'}} >Login as Organisation</Link>
       </div>
     </Box>
   );

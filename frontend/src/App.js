@@ -21,6 +21,7 @@ import DoneeSignup from "./pages/doneesignup";
 import DonorDashboard from "./pages/DonorDashboard";
 import EditProfile from "./pages/EditProfile";
 import PostDonation from "./pages/PostDonation";
+import ChatList from "./pages/ChatList";
 
 
 import DoneeDashboard from "./pages/DoneeDashboard";
@@ -74,6 +75,7 @@ function App() {
           <Route path="/donordashboard" element={<DonorDashboard />} />
           <Route path="/donor/edit-profile" element={<EditProfile />} />
           <Route path="/post-donation" element={<PostDonation />} />
+          <Route path="/donor/chats/:donorId" element={<ChatList />} />
           
           {/* Donee Dashboard */}
           <Route path="/doneedashboard" element={<DoneeDashboard />} />

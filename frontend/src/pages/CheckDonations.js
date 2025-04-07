@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, Button, VStack, HStack, Image, Badge } from "@chakra-ui/react";
+import { Box, Text, Button, VStack, HStack, Image, Badge, Flex } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+import Chat from "../components/Chat";
+
+
 
 const CheckDonations = () => {
   const [donations, setDonations] = useState([]);
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  const decoded = token ? jwtDecode(token) : null;
+  const doneeId = decoded?.id || decoded?._id; // depends on how your token is structured
+
 
   useEffect(() => {
     const fetchDonations = async () => {
@@ -17,6 +25,7 @@ const CheckDonations = () => {
         
         const data = await res.json();
         setDonations(data);
+        console.log(data)
       } catch (error) {
         console.error(error);
       }
@@ -48,48 +57,53 @@ const CheckDonations = () => {
   return (
     <VStack spacing={5} p={5} align="center">
       <Text fontSize="2xl" fontWeight="bold">Check Donations</Text>
+      <Flex gap="4" justify="center" wrap="wrap">
       {donations.length > 0 ? donations.map((donation) => (
-        <Box key={donation._id} p={5} shadow="sm" borderWidth="1px" borderRadius="md" width="100%">
+        <Box key={donation._id} p={5} shadow="sm" borderWidth="1px" borderRadius="md" width="20rem">
+          <HStack gap="7rem">
           {donation.image && (
             <Image
-              src={`http://localhost:5000/uploads/${donation.image}`}
-              alt={donation.item}
-              boxSize="100px"
-              borderRadius="md"
-              objectFit="cover"
+            src={`http://localhost:5000/uploads/${donation.image}`}
+            alt={donation.item}
+            boxSize="100px"
+            borderRadius="md"
+            objectFit="cover"
             />
           )}
+          <Chat senderType="donee" senderId={doneeId} receiverType="donor" receiverId={donation.donor._id} />
+          </HStack>
           <Text fontWeight="bold">{donation.item}</Text>
           <Text fontSize="sm" color="gray.500">Category: {donation.category}</Text>
           <Text fontSize="sm" color="gray.500">Quantity: {donation.quantity}</Text>
           <Text fontSize="sm" color="gray.500">Description: {donation.description}</Text>
-          <Badge colorScheme={donation.status === "pending" ? "yellow" : donation.status === "accepted" ? "blue" : "green"}>
+          <Badge marginBottom="5px" backgroundColor={donation.status === "pending" ? "yellow" : donation.status === "accepted" ? "blue" : "green"}>
             {donation.status}
           </Badge>
           <HStack>
             {donation.status === "pending" && (
-              <Button colorScheme="green" onClick={() => updateDonationStatus(donation._id, "accepted")}>
+              <Button color="green" onClick={() => updateDonationStatus(donation._id, "accepted")}>
                 Accept
               </Button>
             )}
             {donation.status === "accepted" && (
               <>
-                <Button colorScheme="red" onClick={() => updateDonationStatus(donation._id, "pending")}>
+                <Button color="red" onClick={() => updateDonationStatus(donation._id, "pending")}>
                   Undo Accept
                 </Button>
-                <Button colorScheme="blue" onClick={() => updateDonationStatus(donation._id, "completed")}>
+                <Button color="blue" onClick={() => updateDonationStatus(donation._id, "completed")}>
                   Mark Completed
                 </Button>
               </>
             )}
             {donation.status === "completed" && (
-              <Button colorScheme="orange" onClick={() => updateDonationStatus(donation._id, "accepted")}>
+              <Button color="orange" onClick={() => updateDonationStatus(donation._id, "accepted")}>
                 Mark Not Completed
               </Button>
             )}
           </HStack>
         </Box>
       )) : <Text>No donations available.</Text>}
+      </Flex>
     </VStack>
   );
 };

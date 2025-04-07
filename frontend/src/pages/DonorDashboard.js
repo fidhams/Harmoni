@@ -11,6 +11,7 @@ const DonorDashboard = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const BASE_URL = "http://localhost:5000/uploads/";
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +27,7 @@ const DonorDashboard = () => {
 
         const data = await res.json();
         console.log("Dashboard Data:", data);
+        setUser(data._id);
 
         if (Array.isArray(data.donations)) {
           setDonations(data.donations);
@@ -96,6 +98,9 @@ const DonorDashboard = () => {
             <Button colorScheme="green" onClick={() => navigate("/post-donation")}>
               Post a New Donation
             </Button>
+            <Button onClick={() => navigate(`/donor/chats/${user}`)}>
+              View Chats
+            </Button>
           </Flex>
 
           <Text fontSize="xl" fontWeight="bold" mt={5}>Your Donations</Text>
@@ -112,6 +117,7 @@ const DonorDashboard = () => {
                     borderRadius="md"
                     width="300px"
                     textAlign="center"
+                    height="60vh"
                   >
                     {/* Status Badge in Top-Right Corner */}
                     <Badge 
@@ -162,7 +168,7 @@ const DonorDashboard = () => {
         </>
       )}
 
-      <Button colorScheme="red" onClick={handleLogout}>Logout</Button>
+      {/* <Button colorScheme="red" onClick={handleLogout}>Logout</Button> */}
       {/* Example usage in donor dashboard */}
       {/* <Chat senderType="donor" senderId={donor._id} receiverType="donee" receiverId={selectedDoneeId} /> */}
 

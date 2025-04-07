@@ -1,8 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require('cors');
-const http = require("http");
-const { Server } = require("socket.io");
+const socketio = require("socket.io");
 
 
 const connectDB = require("./config/db");
@@ -22,11 +21,14 @@ const volunteerPageRoutes = require('./routes/VolunteerPageRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const chatbotRoutes= require('./routes/chatbotRoutes');
 
+const chatRoutes = require('./routes/chatRoutes'); //chat routes
+const userRoutes = require('./routes/userRoutes'); //user routes
+
 
 
 
 const app = express();
-const server = http.createServer(app);
+const server = require('http').Server(app);
 
 // Connect to MongoDB
 connectDB();
@@ -50,6 +52,9 @@ app.use("/api/v", volunteerPageRoutes);
 app.use("/api/approved-donees", contactRoutes);
 app.use("/api/chatbot", chatbotRoutes);
 
+app.use("/api/chat", chatRoutes); //chat routes
+app.use("/api/users", userRoutes); //user routes
+
 // Default route set to Home
 app.use('/api', homeRoutes);
 
@@ -60,10 +65,10 @@ app.use(errorHandler);
 
 
 ///chat implementation
-const io = new Server(server, {
+const io = socketio(server, {
   cors: {
-      origin: "http://localhost:3000", // Replace with your frontend URL
-      methods: ["GET", "POST"]
+    origin: "http://localhost:3000", // Your frontend URL
+    methods: ["GET", "POST"]
   }
 });
 
@@ -85,18 +90,7 @@ io.on("connection", (socket) => {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
   // Start Server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
