@@ -30,8 +30,7 @@ const ChatList = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const { donorId } = useParams(); // Extract donorId from the URL if needed
-  console.log("donorId", donorId);
-
+  
   const token = localStorage.getItem("token");
 
   const fetchChatList = async () => {
@@ -58,16 +57,32 @@ const ChatList = () => {
 
   useEffect(() => {
     fetchChatList();
+    const interval = setInterval(fetchChatList, 30000); 
+    return () => clearInterval(interval);
   }, [donorId]);
 
   const formatMessageDate = (dateString) => {
-    const date = new Date(dateString);
-    if (isToday(date)) {
-      return format(date, "h:mm a");
-    } else if (isYesterday(date)) {
-      return "Yesterday";
-    } else {
-      return format(date, "MM/dd/yyyy");
+    // Handle invalid date strings
+    if (!dateString) return "No date";
+    
+    try {
+      const date = new Date(dateString);
+      
+      // Check if date is valid
+      if (isNaN(date.getTime())) {
+        return "Invalid date";
+      }
+      
+      if (isToday(date)) {
+        return format(date, "h:mm a");
+      } else if (isYesterday(date)) {
+        return "Yesterday";
+      } else {
+        return format(date, "MM/dd/yyyy");
+      }
+    } catch (error) {
+      console.error("Date formatting error:", error);
+      return "Invalid date";
     }
   };
 
@@ -79,6 +94,24 @@ const ChatList = () => {
 
   const handleDrawerClose = () => {
     setIsDrawerOpen(false);
+  };
+
+  const handleMessagesRead = (roomId) => {
+    // Update the unread count for this chat to zero
+    setChatList(prevChats => 
+      prevChats.map(chat => {
+        // Find the chat that matches this room ID
+        const chatRoomId = [
+          'donee' + chat.doneeId, 
+          'donor' + donorId
+        ].sort().join('_');
+        
+        if (chatRoomId === roomId) {
+          return { ...chat, unreadCount: 0 };
+        }
+        return chat;
+      })
+    );
   };
 
   // Find the active chat data
@@ -180,6 +213,7 @@ const ChatList = () => {
           receiverName={activeChatData.doneeName}
           isOpen={isDrawerOpen}
           onClose={handleDrawerClose}
+          onMessagesRead={handleMessagesRead}
         />
       )}
       {/* <ToastContainer /> */}

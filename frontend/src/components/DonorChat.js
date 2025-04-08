@@ -99,10 +99,12 @@ const DonorChat = ({
       if (isOpen && messages.length > 0) {
         try {
           await axios.put(
-            `http://localhost:5000/api/chat/messages/read/${room}/${senderType}/${senderId}`,
+            `http://localhost:5000/api/chat/messages/${room}/read/${senderType}/${senderId}`,
             {},
             axiosConfig
           );
+
+          console.log("Messages marked as read");
           
           // If callback exists, notify parent component that messages were read
           if (onMessagesRead) {
@@ -284,6 +286,7 @@ const DonorChat = ({
                       minHeight="300px"
                       onScroll={() => {
                         // Mark messages as read when scrolling through chat
+                        markMessagesAsRead();
                         if (messagesContainerRef.current && isOpen) {
                           markMessagesAsRead();
                         }
