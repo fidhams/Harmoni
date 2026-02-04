@@ -181,7 +181,7 @@ const Chat = ({ senderType, senderId, receiverType, receiverId }) => {
     if (loading) return <Spinner size="sm" ml="5" />;
   
     return (
-      <Box position="relative" left="25px" bottom="30px">
+      <Box position="relative" left="25px" bottom="30px" top="5px"right="5px">
         <Float>
           <Drawer.Root size="sm" open={open} onOpenChange={(e) => setOpen(e.open)}>
             <Drawer.Trigger asChild>
@@ -219,7 +219,7 @@ const Chat = ({ senderType, senderId, receiverType, receiverId }) => {
                       <VStack spacing={4}>
                         <Text>Chat not initiated yet.</Text>
                         {senderType === "donee" && (
-                          <Button colorScheme="blue" onClick={initiateChat}>
+                          <Button colorPalette="blue" onClick={initiateChat}>
                             Initiate Chat
                           </Button>
                         )}
@@ -270,7 +270,7 @@ const Chat = ({ senderType, senderId, receiverType, receiverId }) => {
                           />
                           <Button 
                             onClick={sendMessage} 
-                            colorScheme="blue"
+                            colorPalette="blue"
                             isDisabled={!message.trim()}
                           >
                             Send

@@ -91,7 +91,7 @@ const AdminDashboard = () => {
         <Button variant="ghost" onClick={() => setActiveSection("donors")}>Donors</Button>
         <Button variant="ghost" onClick={() => setActiveSection("donees")}>Donees</Button>
 
-        <Button colorScheme="red" onClick={handleLogout}>Logout</Button>
+        <Button colorPalette="red" onClick={handleLogout}>Logout</Button>
       </VStack>
 
       {/* Main Content */}
@@ -116,7 +116,7 @@ const AdminDashboard = () => {
             {activeSection === "donors" && (
               <Box mt={5}>
                 <Text fontSize="xl" mb={3}>Donors List</Text>
-                <Table.Root variant="striped" colorScheme="blue" color="black">
+                <Table.Root variant="striped" colorPalette="blue" color="black">
                   <Table.Header>
                     <Table.Row>
                       <Table.ColumnHeader color="blue">Name</Table.ColumnHeader>
@@ -141,7 +141,7 @@ const AdminDashboard = () => {
                         <Table.Cell>{donor.skills.length ? donor.skills.join(", ") : "None"}</Table.Cell>
                         <Table.Cell>{donor.description || "N/A"}</Table.Cell>
                         <Table.Cell>{new Date(donor.createdAt).toLocaleDateString()}</Table.Cell>
-                        <Table.Cell><Button colorScheme="red" mt={3} onClick={() => handleDeleteDonor(donor._id)}>Delete</Button></Table.Cell>
+                        <Table.Cell><Button colorPalette="red" mt={3} onClick={() => handleDeleteDonor(donor._id)}>Delete</Button></Table.Cell>
                       </Table.Row>
                     ))}
                   </Table.Body>
@@ -197,9 +197,9 @@ const AdminDashboard = () => {
                         <Table.Cell>{donee.Event?.length || 0}</Table.Cell>
                         <Table.Cell>{donee.Needs?.length || 0}</Table.Cell>
                         <Table.Cell>{donee.ImpactStories?.length || 0}</Table.Cell>
-                        <Table.Cell><Button colorScheme="blue" onClick={() => handleVerify(donee._id, donee.verified)}>
+                        <Table.Cell><Button colorPalette="blue" onClick={() => handleVerify(donee._id, donee.verified)}>
                             {donee.verified ? "Unverify" : "Verify"}</Button></Table.Cell>
-                        <Table.Cell><Button colorScheme="red" onClick={() => handleDeleteDonee(donee._id)}>Delete</Button></Table.Cell>
+                        <Table.Cell><Button colorPalette="red" onClick={() => handleDeleteDonee(donee._id)}>Delete</Button></Table.Cell>
                       </Table.Row>
                     ))}
                   </Table.Body>

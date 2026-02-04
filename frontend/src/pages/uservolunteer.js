@@ -127,9 +127,9 @@ const VolunteerEventsPage = () => {
               {user?.userRole === "donee" ? (
                 <Text color="red.500">Not Applicable</Text>
               ) : user && event.volunteers.map(id => id.toString()).includes(user.id) ? (
-                <Button colorScheme="green" isDisabled>Applied</Button>
+                <Button colorPalette="green" isDisabled>Applied</Button>
               ) : (
-                <Button colorScheme="blue" onClick={() => applyForEvent(event._id)}>Apply</Button>
+                <Button colorPalette="blue" onClick={() => applyForEvent(event._id)}>Apply</Button>
               )}
             </Box>
             {index < events.length - 1 && <Box w="100%" h="2px" bg="gray.300" my={5} />}

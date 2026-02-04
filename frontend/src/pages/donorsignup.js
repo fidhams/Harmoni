@@ -69,7 +69,7 @@ const DonorSignup = () => {
         <Input type="tel" name="phone" placeholder="Phone" value={formData.phone} onChange={handleChange} required color="black" />
         <Input type="text" name="address" placeholder="Address (optional)" value={formData.address} onChange={handleChange} color="black" />
         
-        <Button variant="ghost" type="submit" colorScheme="blue" isLoading={loading} width="full">
+        <Button variant="ghost" type="submit" colorPalette="blue" isLoading={loading} width="full">
           Sign Up
         </Button>
       </VStack>

@@ -74,7 +74,7 @@ const DoneeSignup = () => {
         {/* File Upload for Registration Certificate */}
         <Input type="file" name="registrationCertificate" onChange={handleChange} accept=".pdf,.jpg,.png" required color="black" />
 
-        <Button variant="ghost" type="submit" colorScheme="blue" isLoading={loading} width="full">
+        <Button variant="ghost" type="submit" colorPalette="blue" isLoading={loading} width="full">
           Sign Up
         </Button>
       </VStack>

@@ -118,8 +118,8 @@ const EditProfile = () => {
       </HStack>
 
       <HStack>
-        <Button colorScheme="green" onClick={handleSubmit}>Save Changes</Button>
-        <Button colorScheme="red" onClick={() => navigate("/donordashboard")}>Cancel</Button>
+        <Button colorPalette="green" onClick={handleSubmit}>Save Changes</Button>
+        <Button colorPalette="red" onClick={() => navigate("/donordashboard")}>Cancel</Button>
       </HStack>
     </VStack>
   );

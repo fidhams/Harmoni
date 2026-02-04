@@ -117,8 +117,8 @@ const PostDonation = () => {
         />
         )}
 
-        <Button colorScheme="green" onClick={handlePostDonation} isLoading={loading}>Post Donation</Button>
-        <Button colorScheme="gray" onClick={() => navigate("/donordashboard")} isDisabled={loading}>Cancel</Button>
+        <Button colorPalette="green" onClick={handlePostDonation} isLoading={loading}>Post Donation</Button>
+        <Button colorPalette="gray" onClick={() => navigate("/donordashboard")} isDisabled={loading}>Cancel</Button>
       </VStack>
     </Box>
   );

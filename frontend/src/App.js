@@ -29,7 +29,7 @@ import DoneeEdit from "./pages/DoneeEdit";
 import AddEvent from "./pages/AddEvent";
 import EditEvent from "./pages/EditEvent";
 import { AddNeed, EditNeed } from "./pages/AddNeed";
-import { AddImpactStory, EditImpactStory } from "./pages/AddImpactStories";
+import { AddImpactStory, EditImpactStory } from "./pages/addImpactStories";
 import CheckDonations from "./pages/CheckDonations";
 import VolunteerDetails from "./pages/VolunteerDetails";
 
@@ -87,7 +87,7 @@ function App() {
           <Route path="/add-impact-story" element={<AddImpactStory />} />
           <Route path="/edit-impact-story/:storyId" element={<EditImpactStory />} />
           <Route path="/check-donations" element={<CheckDonations />} />
-          <Route path="/volunteers/:eventId" element={<VolunteerDetails />} />
+          <Route path="/volunteers/:eventId/:doneeId" element={<VolunteerDetails />} />
 
 
           {/* Other Pages */}

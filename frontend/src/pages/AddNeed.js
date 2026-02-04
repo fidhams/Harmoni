@@ -97,8 +97,8 @@ const NeedForm = ({ isEditing }) => {
         </Box>
       )}
 
-      <Button colorScheme="blue" onClick={handleSubmit}>{isEditing ? "Update Need" : "Add Need"}</Button>
-      <Button colorScheme="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>
+      <Button colorPalette="blue" onClick={handleSubmit}>{isEditing ? "Update Need" : "Add Need"}</Button>
+      <Button colorPalette="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>
     </VStack>
   );
 };

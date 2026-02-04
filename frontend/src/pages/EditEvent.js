@@ -114,8 +114,8 @@ const EditEvent = () => {
         </select>
       </Box>
 
-      <Button colorScheme="blue" onClick={handleSubmit}>Update Event</Button>
-      <Button colorScheme="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>
+      <Button colorPalette="blue" onClick={handleSubmit}>Update Event</Button>
+      <Button colorPalette="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>
     </VStack>
   );
 };

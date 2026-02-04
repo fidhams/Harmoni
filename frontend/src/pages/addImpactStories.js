@@ -95,8 +95,8 @@ const ImpactStoryForm = ({ isEditing }) => {
         {imagePreview && <Image src={imagePreview} alt="Uploaded" boxSize="200px" mt={2} borderRadius="md" />}
       </Box>
 
-      <Button colorScheme="blue" onClick={handleSubmit}>{isEditing ? "Update Story" : "Add Story"}</Button>
-      <Button colorScheme="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>
+      <Button colorPalette="blue" onClick={handleSubmit}>{isEditing ? "Update Story" : "Add Story"}</Button>
+      <Button colorPalette="gray" onClick={() => navigate("/doneedashboard")}>Cancel</Button>
     </VStack>
   );
 };

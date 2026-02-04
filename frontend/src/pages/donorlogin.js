@@ -56,7 +56,7 @@ const DonorLogin = () => {
           onChange={(e) => setPassword(e.target.value)}
           color="black"
         />
-        <Button colorScheme="blue" onClick={handleLogin}>Login</Button>
+        <Button colorPalette="blue" onClick={handleLogin}>Login</Button>
         {error && <Text color="red.500">{error}</Text>}
       </VStack>
       <div className="Signup-section">

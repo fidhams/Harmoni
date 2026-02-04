@@ -223,8 +223,11 @@ const DoneeProfile = () => {
         {/* Google Maps Integration */}
         <div ref={mapRef} style={mapContainerStyle} />
 
-        <Button colorScheme="blue" onClick={useMyLocation}>Use My Location</Button>
-        <Button colorScheme="green" type="submit" isLoading={loading}>Update Profile</Button>
+        <Button colorPalette="blue" onClick={useMyLocation}>Use My Location</Button>
+        <Input type="text" placeholder="Latitude" name="latitude" value={profile.latitude} onChange={handleChange} color="black" />
+        <Input type="text" placeholder="Longitude" name="longitude" value={profile.longitude} onChange={handleChange} color="black" />
+        <Input type="password" placeholder="New Password (optional)" name="password" value={profile.password} onChange={handleChange} color="black" />
+        <Button colorPalette="green" type="submit" isLoading={loading}>Update Profile</Button>
       </VStack>
     </Box>
   );

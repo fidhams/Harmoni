@@ -189,7 +189,7 @@ const ChatList = () => {
                   </Box>
                   {chat.unreadCount > 0 && (
                     <Badge 
-                      colorScheme="blue" 
+                      colorPalette="blue" 
                       borderRadius="full" 
                       px={2} 
                       py={1}

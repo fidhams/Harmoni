@@ -122,7 +122,7 @@ const AddEvent = () => {
             <Text as="span" color="black" ml={2}>Require Volunteers?</Text>
           </label>
 
-          <Button colorScheme="blue" type="submit">Create Event</Button>
+          <Button colorPalette="blue" type="submit">Create Event</Button>
         </VStack>
       </form>
     </Box>

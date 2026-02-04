@@ -268,7 +268,7 @@ const DonorChat = ({
                   <VStack spacing={4}>
                     <Text>Chat not initiated yet.</Text>
                     {senderType === "donee" && (
-                      <Button colorScheme="blue" onClick={initiateChat}>
+                      <Button colorPalette="blue" onClick={initiateChat}>
                         Initiate Chat
                       </Button>
                     )}
@@ -329,7 +329,7 @@ const DonorChat = ({
                       />
                       <Button 
                         onClick={sendMessage} 
-                        colorScheme="blue"
+                        colorPalette="blue"
                         isDisabled={!message.trim()}
                       >
                         Send

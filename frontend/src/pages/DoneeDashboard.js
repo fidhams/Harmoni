@@ -78,7 +78,7 @@ const DoneeDashboard = () => {
   return (
     <Box>
       
-    < Notification />
+    {/* < Notification /> */}
     <VStack spacing={5} p={5} align="center">
       <Text fontSize="2xl" fontWeight="bold">Donee Dashboard</Text>
       {profile ? (
@@ -102,7 +102,7 @@ const DoneeDashboard = () => {
         ) : (
           <Text>Location: Not Available</Text>
         )}
-        <Button colorScheme="blue" onClick={() => navigate("/donee/edit-profile")}>
+        <Button colorPalette="blue" onClick={() => navigate("/donee/edit-profile")}>
           Edit Profile
         </Button>
       </VStack>
@@ -114,7 +114,7 @@ const DoneeDashboard = () => {
 
 
     <Text fontSize="xl" fontWeight="bold">Posted Events</Text>
-    <Button colorScheme="green" onClick={() => navigate("/add-event")}>Add Event</Button>
+    <Button colorPalette="green" onClick={() => navigate("/add-event")}>Add Event</Button>
     {events.length > 0 ? events.map((event) => (
       <Box key={event._id} p={3} shadow="sm" borderWidth="1px" borderRadius="md" width="100%">
         <VStack align="start" spacing={1}>
@@ -125,10 +125,10 @@ const DoneeDashboard = () => {
           <Text fontSize="sm" color="gray.500" style={{ whiteSpace: "pre-line" }} >Description: {event.description}</Text>
           <HStack>
             {event.volunteerRequest? 
-              <Button colorScheme="blue" onClick={() => navigate(`/volunteers/${event._id}`)}>Volunteer</Button> : null 
+              <Button colorPalette="blue" onClick={() => navigate(`/volunteers/${event._id}/${profile._id}`)}>Volunteer</Button> : null 
             }
-            <Button colorScheme="blue" onClick={() => navigate(`/edit-event/${event._id}`)}>Edit</Button>
-            <Button colorScheme="red" onClick={() => handleDeleteEvent(event._id)}>Delete</Button>
+            <Button colorPalette="blue" onClick={() => navigate(`/edit-event/${event._id}`)}>Edit</Button>
+            <Button colorPalette="red" onClick={() => handleDeleteEvent(event._id)}>Delete</Button>
           </HStack>
         </VStack>
       </Box>
@@ -143,8 +143,8 @@ const DoneeDashboard = () => {
 
       <Text fontSize="xl" fontWeight="bold">Posted Needs</Text>
       <HStack>
-        <Button colorScheme="green" onClick={() => navigate("/add-need")}>Post Needs</Button>
-        <Button colorScheme="blue" onClick={() => navigate("/check-donations")}>Check Donations</Button>
+        <Button colorPalette="green" onClick={() => navigate("/add-need")}>Post Needs</Button>
+        <Button colorPalette="blue" onClick={() => navigate("/check-donations")}>Check Donations</Button>
       </HStack>      {needs.length > 0 ? needs.map((need) => (
         <Box key={need._id} p={5} shadow="sm" borderWidth="1px" borderRadius="md">
           <Badge bg={need.fulfilled ? "green.400" : "red.400"} color="white" >
@@ -155,14 +155,14 @@ const DoneeDashboard = () => {
           <Text fontSize="sm" color="gray.500">Quantity: {need.quantity}</Text>
           <Text fontSize="sm" color="gray.500" style={{ whiteSpace: "pre-line" }} >Description: {need.description}</Text>
           <HStack>
-            <Button colorScheme="blue" onClick={() => navigate(`/edit-need/${need._id}`)}>Edit</Button>
-            <Button colorScheme="red" onClick={() => handleDeleteNeed(need._id)}>Delete</Button>
+            <Button colorPalette="blue" onClick={() => navigate(`/edit-need/${need._id}`)}>Edit</Button>
+            <Button colorPalette="red" onClick={() => handleDeleteNeed(need._id)}>Delete</Button>
           </HStack>
         </Box>
       )) : <Text>No needs posted yet.</Text>}
 
       <Text fontSize="xl" fontWeight="bold">Impact Stories</Text>
-      <Button colorScheme="green" onClick={() => navigate("/add-impact-story")}>Add Impact Story</Button>
+      <Button colorPalette="green" onClick={() => navigate("/add-impact-story")}>Add Impact Story</Button>
       
       {impactStories.length > 0 ? impactStories.map((story) => (
         <Box key={story._id} style={{ whiteSpace: "pre-line" }} width="100%">
@@ -182,8 +182,8 @@ const DoneeDashboard = () => {
         <Text fontWeight="bold">{story.title}</Text>
         <Text>{story.description}</Text>
         <HStack>
-          <Button colorScheme="blue" onClick={() => navigate(`/edit-impact-story/${story._id}`)}>Edit</Button>
-          <Button colorScheme="red" onClick={() => handleDeleteImpactStory(story._id)}>Delete</Button>
+          <Button colorPalette="blue" onClick={() => navigate(`/edit-impact-story/${story._id}`)}>Edit</Button>
+          <Button colorPalette="red" onClick={() => handleDeleteImpactStory(story._id)}>Delete</Button>
         </HStack>
       </VStack>
     </HStack>
